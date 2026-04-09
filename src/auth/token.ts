@@ -1,7 +1,7 @@
 import { env, type BearerTokenPersistence } from '@/config/env'
 
-const STORAGE_KEY_ACCESS = 'mts_ecom.bearer_token'
-const STORAGE_KEY_REFRESH = 'mts_ecom.refresh_token'
+const STORAGE_KEY_ACCESS = 'react-vite-laravel.bearer_token'
+const STORAGE_KEY_REFRESH = 'react-vite-laravel.refresh_token'
 
 /** In-RAM only — lost on full reload. */
 let memoryAccessToken: string | null = null

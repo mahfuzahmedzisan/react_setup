@@ -17,7 +17,7 @@ export default function Home() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <ShoppingBag className="h-4 w-4" />
             </span>
-            <span>MTS Ecom</span>
+            <span>React + Vite + Laravel</span>
           </Link>
 
           <nav className="hidden items-center gap-6 text-sm md:flex">
@@ -170,7 +170,7 @@ export default function Home() {
 
       <footer className="border-t">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-10 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <div>© {new Date().getFullYear()} MTS Ecom. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} React + Vite + Laravel. All rights reserved.</div>
           <div className="flex gap-4">
             <a className="hover:text-foreground" href="#">
               Privacy
