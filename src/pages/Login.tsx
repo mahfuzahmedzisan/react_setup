@@ -1,38 +1,79 @@
 import * as React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
+import {
+  extractBearerTokenFromLoginBody,
+  extractUserFromAuthPayload,
+} from '@/api/laravelResponse'
 import { useAuth } from '@/auth/useAuth'
 import { request } from '@/api/request'
+import { env } from '@/config/env'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 
-type LoginResponse = {
-  access_token?: string
-  token?: string
+function nextParamPointsAtLoginLoop(nextRaw: string | null) {
+  if (!nextRaw) return false
+  let s = nextRaw
+  for (let i = 0; i < 8; i++) {
+    if (s.includes('/login')) return true
+    try {
+      s = decodeURIComponent(s)
+    } catch {
+      return true
+    }
+  }
+  return s.includes('/login')
 }
 
 export default function Login() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { setToken } = useAuth()
+  const [searchParams] = useSearchParams()
+  const { setToken, setUser, refreshSession, authStrategy } = useAuth()
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
 
+  React.useEffect(() => {
+    const next = searchParams.get('next')
+    if (nextParamPointsAtLoginLoop(next)) {
+      navigate('/login', { replace: true })
+    }
+  }, [navigate, searchParams])
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
     setLoading(true)
     try {
-      const res = await request.post<LoginResponse>('/login', { email, password })
-      const token = res.data.data.access_token ?? res.data.data.token
-      if (!token) throw new Error('Login did not return an access token.')
-      setToken(token)
-      const from = (location.state as { from?: { pathname?: string } } | null)
-        ?.from?.pathname
+      const res = await request.post<unknown>('/login', { email, password })
+      const body = res.data
+
+      if (authStrategy === 'http_only_cookie') {
+        const u = await refreshSession()
+        if (!u) {
+          throw new Error(
+            'No session cookie detected. Your Laravel API returns a Bearer token in JSON, not HttpOnly cookies. Set VITE_AUTH_STRATEGY=bearer_memory in .env and restart the dev server.',
+          )
+        }
+      } else {
+        const token = extractBearerTokenFromLoginBody(body)
+        if (!token) {
+          throw new Error(
+            'Login response did not include a token. Expected Laravel sendResponse data.token or data.access_token.',
+          )
+        }
+        setToken(token)
+        const u = extractUserFromAuthPayload(body)
+        if (u) setUser(u)
+        await refreshSession()
+      }
+
+      const from = (location.state as { from?: { pathname?: string } } | null)?.from
+        ?.pathname
       navigate(from || '/account', { replace: true })
     } catch (err) {
       const message =
@@ -49,7 +90,10 @@ export default function Login() {
         <CardHeader>
           <CardTitle>Sign in</CardTitle>
           <CardDescription>
-            Use your store account. (Endpoint assumed: <code>/auth/login</code>)
+            Auth: <code className="text-xs">{env.authStrategy}</code>
+            {authStrategy === 'http_only_cookie'
+              ? ' — expects HttpOnly session cookie from the API'
+              : ` — Passport Bearer (${env.bearerTokenPersistence}: reload-safe)`}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -93,4 +137,3 @@ export default function Login() {
     </div>
   )
 }
-
