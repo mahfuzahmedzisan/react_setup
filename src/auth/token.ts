@@ -1,68 +1,111 @@
 import { env, type BearerTokenPersistence } from '@/config/env'
 
-const STORAGE_KEY = 'mts_ecom.bearer_token'
+const STORAGE_KEY_ACCESS = 'mts_ecom.bearer_token'
+const STORAGE_KEY_REFRESH = 'mts_ecom.refresh_token'
 
 /** In-RAM only — lost on full reload. */
-let memoryToken: string | null = null
+let memoryAccessToken: string | null = null
+let memoryRefreshToken: string | null = null
 
-function readFromPersistence(mode: BearerTokenPersistence): string | null {
+function readAccess(mode: BearerTokenPersistence): string | null {
   if (typeof window === 'undefined') return null
-  if (mode === 'memory') return memoryToken
+  if (mode === 'memory') return memoryAccessToken
   try {
-    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY)
-    return localStorage.getItem(STORAGE_KEY)
+    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY_ACCESS)
+    return localStorage.getItem(STORAGE_KEY_ACCESS)
   } catch {
     return null
   }
 }
 
-function writePersistence(mode: BearerTokenPersistence, token: string) {
+function writeAccess(mode: BearerTokenPersistence, token: string) {
   if (typeof window === 'undefined') return
   if (mode === 'memory') {
-    memoryToken = token
+    memoryAccessToken = token
     return
   }
   try {
     if (mode === 'session') {
-      sessionStorage.setItem(STORAGE_KEY, token)
+      sessionStorage.setItem(STORAGE_KEY_ACCESS, token)
       return
     }
-    localStorage.setItem(STORAGE_KEY, token)
+    localStorage.setItem(STORAGE_KEY_ACCESS, token)
   } catch {
-    memoryToken = token
+    memoryAccessToken = token
   }
 }
 
-function clearAllStoredTokens() {
-  memoryToken = null
+function readRefresh(mode: BearerTokenPersistence): string | null {
+  if (typeof window === 'undefined') return null
+  if (mode === 'memory') return memoryRefreshToken
+  try {
+    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY_REFRESH)
+    return localStorage.getItem(STORAGE_KEY_REFRESH)
+  } catch {
+    return null
+  }
+}
+
+function writeRefresh(mode: BearerTokenPersistence, token: string) {
+  if (typeof window === 'undefined') return
+  if (mode === 'memory') {
+    memoryRefreshToken = token
+    return
+  }
+  try {
+    if (mode === 'session') {
+      sessionStorage.setItem(STORAGE_KEY_REFRESH, token)
+      return
+    }
+    localStorage.setItem(STORAGE_KEY_REFRESH, token)
+  } catch {
+    memoryRefreshToken = token
+  }
+}
+
+function clearAllAuthStorage() {
+  memoryAccessToken = null
+  memoryRefreshToken = null
   if (typeof window === 'undefined') return
   try {
-    sessionStorage.removeItem(STORAGE_KEY)
-    localStorage.removeItem(STORAGE_KEY)
+    sessionStorage.removeItem(STORAGE_KEY_ACCESS)
+    localStorage.removeItem(STORAGE_KEY_ACCESS)
+    sessionStorage.removeItem(STORAGE_KEY_REFRESH)
+    localStorage.removeItem(STORAGE_KEY_REFRESH)
   } catch {
     // ignore
   }
 }
 
 /**
- * Passport Bearer token location (only for `bearer_memory` strategy).
- *
- * - `memory` — never survives reload (most XSS-resistant client option; worst UX).
- * - `session` — **default**; survives Ctrl+Shift+R and F5 in this tab; cleared when tab closes.
- * - `local` — survives reload and new tabs until logout; common for SPAs when no HttpOnly refresh cookie exists (XSS can read it — mitigate with CSP).
- *
- * HttpOnly cookies are not available from your current API; persistence requires one of the above.
+ * Passport Bearer access token (only for `bearer_memory` strategy).
  */
 export function getAccessToken(): string | null {
   if (env.authStrategy === 'http_only_cookie') return null
-  return readFromPersistence(env.bearerTokenPersistence)
+  return readAccess(env.bearerTokenPersistence)
 }
 
 export function setAccessToken(token: string) {
   if (env.authStrategy === 'http_only_cookie') return
-  writePersistence(env.bearerTokenPersistence, token)
+  writeAccess(env.bearerTokenPersistence, token)
 }
 
+/**
+ * Refresh token — only used when `env.refreshTokenEnabled` and login/refresh responses include it.
+ */
+export function getRefreshToken(): string | null {
+  if (env.authStrategy === 'http_only_cookie' || !env.refreshTokenEnabled) {
+    return null
+  }
+  return readRefresh(env.bearerTokenPersistence)
+}
+
+export function setRefreshToken(token: string) {
+  if (env.authStrategy === 'http_only_cookie' || !env.refreshTokenEnabled) return
+  writeRefresh(env.bearerTokenPersistence, token)
+}
+
+/** Clears access + refresh tokens (logout / invalid session). */
 export function clearAccessToken() {
-  clearAllStoredTokens()
+  clearAllAuthStorage()
 }

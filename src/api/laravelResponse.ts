@@ -36,6 +36,22 @@ export function extractBearerTokenFromLoginBody(body: unknown): string | null {
   return null
 }
 
+/** OAuth / Passport: `refresh_token` at root or under `data`. */
+export function extractRefreshTokenFromLoginBody(body: unknown): string | null {
+  if (body === null || body === undefined) return null
+  if (typeof body !== 'object') return null
+  const root = body as Record<string, unknown>
+  const direct =
+    (typeof root.refresh_token === 'string' && root.refresh_token) || null
+  if (direct) return direct
+  const inner = root.data
+  if (inner && typeof inner === 'object') {
+    const d = inner as Record<string, unknown>
+    return (typeof d.refresh_token === 'string' && d.refresh_token) || null
+  }
+  return null
+}
+
 /** Map Laravel `UserResource` / user object from login or `/me`. */
 export function extractUserFromAuthPayload(body: unknown): AuthUser | null {
   const data = unwrapLaravelData<unknown>(body)

@@ -24,6 +24,18 @@ function bearerTokenPersistenceFromEnv(): BearerTokenPersistence {
   return 'session'
 }
 
+function refreshTokenConfigFromEnv() {
+  const enabledFlag = import.meta.env.VITE_REFRESH_TOKEN_ENABLED === 'false'
+  const path = (import.meta.env.VITE_AUTH_REFRESH_PATH as string | undefined)?.trim() ?? ''
+  const key =
+    (import.meta.env.VITE_REFRESH_TOKEN_BODY_KEY as string | undefined)?.trim() ||
+    'refresh_token'
+  const enabled = enabledFlag && path.length > 0
+  return { enabled, path, bodyKey: key }
+}
+
+const refreshTokenEnv = refreshTokenConfigFromEnv()
+
 export const env = {
   mode: import.meta.env.MODE,
   isDev: import.meta.env.DEV,
@@ -44,4 +56,13 @@ export const env = {
   authMePath: import.meta.env.VITE_AUTH_ME_PATH ?? '/me',
   /** Optional: POST to clear server session + cookies (e.g. `/logout`) */
   authLogoutPath: import.meta.env.VITE_AUTH_LOGOUT_PATH ?? '/logout',
+  /**
+   * When `true` **and** `authRefreshPath` is non-empty: POST refresh + retry on 401.
+   * If disabled or path missing, refresh logic is not loaded.
+   */
+  refreshTokenEnabled: refreshTokenEnv.enabled,
+  /** Path after `VITE_API_BASE_URL` (e.g. `/oauth/token` or `/refresh`) */
+  authRefreshPath: refreshTokenEnv.path,
+  /** JSON body field name for the refresh token (default `refresh_token`) */
+  refreshTokenBodyKey: refreshTokenEnv.bodyKey,
 }

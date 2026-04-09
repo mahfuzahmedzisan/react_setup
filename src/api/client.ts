@@ -1,7 +1,18 @@
-import axios, { type AxiosError, type AxiosInstance } from 'axios'
+import axios, {
+  type AxiosError,
+  type AxiosInstance,
+  type InternalAxiosRequestConfig,
+} from 'axios'
 
 import { getXsrfTokenFromCookie } from '@/auth/csrf'
-import { clearAccessToken, getAccessToken } from '@/auth/token'
+import { performTokenRefresh } from '@/auth/performTokenRefresh'
+import {
+  clearAccessToken,
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from '@/auth/token'
 import { env, type AuthStrategy } from '@/config/env'
 
 function shouldLog() {
@@ -16,12 +27,30 @@ function isLoginRoute(pathname: string) {
   return pathname === '/login' || pathname.startsWith('/login/')
 }
 
+function normalizePath(p: string) {
+  return p.replace(/^\/+/, '').replace(/\/+$/, '')
+}
+
+function isAuthRefreshRequest(config: InternalAxiosRequestConfig): boolean {
+  if (!env.refreshTokenEnabled || !env.authRefreshPath) return false
+  const u = config.url ?? ''
+  const ref = normalizePath(env.authRefreshPath)
+  const cur = normalizePath(u)
+  return cur === ref || cur.endsWith(ref)
+}
+
+function redirectToLogin() {
+  const next = encodeURIComponent(
+    window.location.pathname + window.location.search,
+  )
+  window.location.assign(`/login?next=${next}`)
+}
+
 export const api: AxiosInstance = axios.create({
   baseURL: env.apiBaseUrl,
   headers: {
     Accept: 'application/json',
   },
-  // Required for cross-origin HttpOnly cookies (Laravel Passport / Sanctum SPA)
   withCredentials: true,
 })
 
@@ -65,7 +94,7 @@ api.interceptors.response.use(
     }
     return res
   },
-  (err: AxiosError) => {
+  async (err: AxiosError) => {
     if (shouldLog()) {
       console.debug('[api] error', {
         status: err.response?.status,
@@ -74,25 +103,55 @@ api.interceptors.response.use(
       })
     }
 
-    if (err.response?.status === 401) {
-      clearAccessToken()
+    const config = err.config as
+      | (InternalAxiosRequestConfig & { _retry?: boolean })
+      | undefined
 
-      // Never redirect on "who am I?" probes — 401 means "not logged in", not "go to login"
-      // (otherwise /login + fetchCurrentUser() creates an infinite ?next= nesting loop).
-      if (err.config?.skipAuthRedirect) {
-        return Promise.reject(err)
-      }
-
-      if (typeof window !== 'undefined' && isLoginRoute(window.location.pathname)) {
-        return Promise.reject(err)
-      }
-
-      const next = encodeURIComponent(
-        window.location.pathname + window.location.search,
-      )
-      window.location.assign(`/login?next=${next}`)
+    if (err.response?.status !== 401 || !config) {
+      return Promise.reject(err)
     }
 
+    // Session probes / login page — never clear tokens or redirect here
+    if (config.skipAuthRedirect) {
+      return Promise.reject(err)
+    }
+
+    if (typeof window !== 'undefined' && isLoginRoute(window.location.pathname)) {
+      return Promise.reject(err)
+    }
+
+    // Refresh endpoint failed — cannot recover
+    if (isAuthRefreshRequest(config)) {
+      clearAccessToken()
+      redirectToLogin()
+      return Promise.reject(err)
+    }
+
+    // Optional: one retry after successful token refresh
+    if (
+      env.refreshTokenEnabled &&
+      getRefreshToken() &&
+      !config._retry
+    ) {
+      try {
+        const tokens = await performTokenRefresh()
+        if (tokens?.accessToken) {
+          setAccessToken(tokens.accessToken)
+          if (tokens.refreshToken) {
+            setRefreshToken(tokens.refreshToken)
+          }
+          config.headers = config.headers ?? {}
+          config.headers.Authorization = `Bearer ${tokens.accessToken}`
+          config._retry = true
+          return api(config)
+        }
+      } catch {
+        // fall through to logout
+      }
+    }
+
+    clearAccessToken()
+    redirectToLogin()
     return Promise.reject(err)
   },
 )

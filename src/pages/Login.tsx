@@ -3,11 +3,13 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   extractBearerTokenFromLoginBody,
+  extractRefreshTokenFromLoginBody,
   extractUserFromAuthPayload,
 } from '@/api/laravelResponse'
 import { useAuth } from '@/auth/useAuth'
 import { request } from '@/api/request'
 import { env } from '@/config/env'
+import { setRefreshToken } from '@/auth/token'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -67,6 +69,8 @@ export default function Login() {
           )
         }
         setToken(token)
+        const refresh = extractRefreshTokenFromLoginBody(body)
+        if (refresh) setRefreshToken(refresh)
         const u = extractUserFromAuthPayload(body)
         if (u) setUser(u)
         await refreshSession()
@@ -93,7 +97,7 @@ export default function Login() {
             Auth: <code className="text-xs">{env.authStrategy}</code>
             {authStrategy === 'http_only_cookie'
               ? ' — expects HttpOnly session cookie from the API'
-              : ` — Passport Bearer (${env.bearerTokenPersistence}: reload-safe)`}
+              : ` — Passport Bearer (${env.bearerTokenPersistence}${env.refreshTokenEnabled ? ', refresh on 401' : ''})`}
           </CardDescription>
         </CardHeader>
         <CardContent>
