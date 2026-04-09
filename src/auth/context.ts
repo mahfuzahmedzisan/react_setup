@@ -9,6 +9,8 @@ export type AuthContextValue = {
   isAuthenticated: boolean
   /** True while checking HttpOnly cookie session on load */
   isSessionLoading: boolean
+  /** True while fetching the current user profile for role checks */
+  isUserLoading: boolean
   user: AuthUser | null
   setToken: (token: string) => void
   logout: () => Promise<void>

@@ -5,6 +5,8 @@ import { AuthContext, type AuthContextValue } from '@/auth/context'
 import { fetchCurrentUser } from '@/auth/session'
 import { clearAccessToken, getAccessToken, setAccessToken } from '@/auth/token'
 import { type AuthUser } from '@/auth/types'
+import { getRoleLogoutPath } from '@/auth/rolePolicy'
+import { getUserRoles } from '@/auth/roles'
 import { env } from '@/config/env'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -15,13 +17,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isSessionLoading, setIsSessionLoading] = React.useState(
     () => env.authStrategy === 'http_only_cookie',
   )
+  const [isUserLoading, setIsUserLoading] = React.useState(() => {
+    return env.authStrategy === 'bearer_memory' && Boolean(getAccessToken())
+  })
 
   const refreshSession = React.useCallback(async (): Promise<AuthUser | null> => {
-    const u = await fetchCurrentUser()
-    setUser(u)
-    // Do not clear the bearer token when /me is missing or fails to parse — the token may
-    // still be valid; only logout and the global 401 handler should clear it.
-    return u
+    setIsUserLoading(true)
+    try {
+      const u = await fetchCurrentUser()
+      // Never overwrite a known user with null due to a transient /me failure.
+      if (u) setUser(u)
+      return u
+    } finally {
+      setIsUserLoading(false)
+    }
   }, [])
 
   React.useEffect(() => {
@@ -60,12 +69,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     clearAccessToken()
     setAccessTokenState(null)
     setUser(null)
+    setIsUserLoading(false)
     try {
-      await api.post(env.authLogoutPath)
+      if (env.logoutMode === 'multi') {
+        const roles = getUserRoles(user)
+        const roleLogout = roles.map((r) => getRoleLogoutPath(r)).find(Boolean)
+        await api.post(roleLogout ?? env.authLogoutPath)
+      } else {
+        await api.post(env.authLogoutPath)
+      }
     } catch {
       // Session may already be invalid; still clear client state
     }
-  }, [])
+  }, [user])
 
   const value = React.useMemo<AuthContextValue>(
     () => ({
@@ -76,6 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           ? Boolean(user)
           : Boolean(accessTokenState),
       isSessionLoading,
+      isUserLoading,
       user,
       setToken,
       logout,
@@ -85,6 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [
       accessTokenState,
       isSessionLoading,
+      isUserLoading,
       logout,
       refreshSession,
       setToken,

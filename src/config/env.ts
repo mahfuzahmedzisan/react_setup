@@ -9,6 +9,14 @@ export type AuthStrategy = 'bearer_memory' | 'http_only_cookie'
 /** Where to keep the Bearer token when using Passport JSON (no HttpOnly cookie from API). */
 export type BearerTokenPersistence = 'memory' | 'session' | 'local'
 
+/** How to interpret roles on the user object. */
+export type RoleMode = 'single' | 'multi'
+
+/** Whether login pages are single (global) or role-specific. */
+export type LoginMode = 'single' | 'multi'
+
+export type LogoutMode = 'single' | 'multi'
+
 function authStrategyFromEnv(): AuthStrategy {
   const raw = (import.meta.env.VITE_AUTH_STRATEGY as string | undefined)?.toLowerCase()
   if (raw === 'http_only_cookie' || raw === 'cookie') return 'http_only_cookie'
@@ -24,8 +32,36 @@ function bearerTokenPersistenceFromEnv(): BearerTokenPersistence {
   return 'session'
 }
 
+function roleModeFromEnv(): RoleMode {
+  const raw = (import.meta.env.VITE_ROLE_MODE as string | undefined)?.toLowerCase()
+  if (raw === 'multi' || raw === 'multiple') return 'multi'
+  return 'single'
+}
+
+function rolePolicyJsonFromEnv(): unknown | null {
+  const raw = (import.meta.env.VITE_ROLE_POLICY_JSON as string | undefined)?.trim()
+  if (!raw) return null
+  try {
+    return JSON.parse(raw)
+  } catch {
+    return null
+  }
+}
+
+function loginModeFromEnv(): LoginMode {
+  const raw = (import.meta.env.VITE_LOGIN_MODE as string | undefined)?.toLowerCase()
+  if (raw === 'multi' || raw === 'multiple') return 'multi'
+  return 'single'
+}
+
+function logoutModeFromEnv(): LogoutMode {
+  const raw = (import.meta.env.VITE_LOGOUT_MODE as string | undefined)?.toLowerCase()
+  if (raw === 'multi' || raw === 'multiple') return 'multi'
+  return 'single'
+}
+
 function refreshTokenConfigFromEnv() {
-  const enabledFlag = import.meta.env.VITE_REFRESH_TOKEN_ENABLED === 'false'
+  const enabledFlag = import.meta.env.VITE_REFRESH_TOKEN_ENABLED === 'true'
   const path = (import.meta.env.VITE_AUTH_REFRESH_PATH as string | undefined)?.trim() ?? ''
   const key =
     (import.meta.env.VITE_REFRESH_TOKEN_BODY_KEY as string | undefined)?.trim() ||
@@ -56,6 +92,14 @@ export const env = {
   authMePath: import.meta.env.VITE_AUTH_ME_PATH ?? '/me',
   /** Optional: POST to clear server session + cookies (e.g. `/logout`) */
   authLogoutPath: import.meta.env.VITE_AUTH_LOGOUT_PATH ?? '/logout',
+  /** Role parsing: `single` uses `user.role`, `multi` uses `user.roles` (array) */
+  roleMode: roleModeFromEnv(),
+  /** Optional JSON overrides for role policy (fallback/dashboard mappings). */
+  rolePolicyJson: rolePolicyJsonFromEnv(),
+  /** Login pages mode: `single` redirects any authed user away from login; `multi` only redirects if the page matches their role. */
+  loginMode: loginModeFromEnv(),
+  /** Logout mode: `single` always uses `authLogoutPath`; `multi` can use rolePolicy logoutPath when present. */
+  logoutMode: logoutModeFromEnv(),
   /**
    * When `true` **and** `authRefreshPath` is non-empty: POST refresh + retry on 401.
    * If disabled or path missing, refresh logic is not loaded.

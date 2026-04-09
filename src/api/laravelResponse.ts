@@ -14,6 +14,17 @@ export function unwrapLaravelData<T = unknown>(body: unknown): T | null {
   return body as T
 }
 
+function unwrapLaravelDataDeep(body: unknown): unknown {
+  let cur: unknown = body
+  for (let i = 0; i < 4; i++) {
+    if (!cur || typeof cur !== 'object') return cur
+    const o = cur as Record<string, unknown>
+    if (!('data' in o)) return cur
+    cur = o.data
+  }
+  return cur
+}
+
 /** Passport / your login payload: `token` or `access_token` at root or under `data`. */
 export function extractBearerTokenFromLoginBody(body: unknown): string | null {
   if (body === null || body === undefined) return null
@@ -54,13 +65,17 @@ export function extractRefreshTokenFromLoginBody(body: unknown): string | null {
 
 /** Map Laravel `UserResource` / user object from login or `/me`. */
 export function extractUserFromAuthPayload(body: unknown): AuthUser | null {
-  const data = unwrapLaravelData<unknown>(body)
+  const data = unwrapLaravelDataDeep(body)
   if (!data || typeof data !== 'object') return null
   const o = data as Record<string, unknown>
+
+  // Common: { data: { user: {...} } }
   if ('user' in o && o.user && typeof o.user === 'object') {
     const u = o.user as Record<string, unknown>
-    if ('id' in u) return u as unknown as AuthUser
+    if ('id' in u || 'email' in u) return u as unknown as AuthUser
   }
+
+  // Sometimes: { data: {...user fields...} }
   if ('id' in o || 'email' in o) return o as unknown as AuthUser
   return null
 }

@@ -10,6 +10,8 @@ import { useAuth } from '@/auth/useAuth'
 import { request } from '@/api/request'
 import { env } from '@/config/env'
 import { setRefreshToken } from '@/auth/token'
+import { rolePolicy } from '@/auth/rolePolicy'
+import { getUserRoles } from '@/auth/roles'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -53,6 +55,7 @@ export default function Login() {
     try {
       const res = await request.post<unknown>('/login', { email, password })
       const body = res.data
+      const loggedInUser = extractUserFromAuthPayload(body)
 
       if (authStrategy === 'http_only_cookie') {
         const u = await refreshSession()
@@ -71,14 +74,26 @@ export default function Login() {
         setToken(token)
         const refresh = extractRefreshTokenFromLoginBody(body)
         if (refresh) setRefreshToken(refresh)
-        const u = extractUserFromAuthPayload(body)
-        if (u) setUser(u)
+        if (loggedInUser) setUser(loggedInUser)
         await refreshSession()
       }
 
       const from = (location.state as { from?: { pathname?: string } } | null)?.from
         ?.pathname
-      navigate(from || '/account', { replace: true })
+      if (from) {
+        navigate(from, { replace: true })
+        return
+      }
+      // Role-aware post-login landing (policy-driven)
+      const roles = getUserRoles(loggedInUser)
+      for (const r of roles) {
+        const dash = rolePolicy[r]?.dashboard
+        if (dash) {
+          navigate(dash, { replace: true })
+          return
+        }
+      }
+      navigate('/dashboard', { replace: true })
     } catch (err) {
       const message =
         err instanceof Error ? err.message : 'Login failed. Please try again.'
