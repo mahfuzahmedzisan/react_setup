@@ -27,8 +27,8 @@ export default function Login() {
     setError(null)
     setLoading(true)
     try {
-      const res = await request.post<LoginResponse>('/auth/login', { email, password })
-      const token = res.data.access_token ?? res.data.token
+      const res = await request.post<LoginResponse>('/login', { email, password })
+      const token = res.data.data.access_token ?? res.data.data.token
       if (!token) throw new Error('Login did not return an access token.')
       setToken(token)
       const from = (location.state as { from?: { pathname?: string } } | null)
