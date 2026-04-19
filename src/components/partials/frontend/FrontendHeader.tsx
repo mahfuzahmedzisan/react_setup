@@ -43,8 +43,8 @@ export function FrontendHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button type="button" variant="outline" onClick={toggleTheme}>
-            {theme === 'dark' ? 'Light' : 'Dark'}
+          <Button type="button" variant="outline" onClick={() => toggleTheme()}>
+            {theme === 'light' ? 'Dark' : 'Light'}
           </Button>
           {isAuthenticated ? (
             <Button
