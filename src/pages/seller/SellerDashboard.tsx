@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { DashboardLayout } from '@/layouts/DashboardLayout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function SellerDashboard() {
   return (
@@ -22,6 +22,5 @@ export default function SellerDashboard() {
         </CardContent>
       </Card>
     </DashboardLayout>
-  )
+  );
 }
-

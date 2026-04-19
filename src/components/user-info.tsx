@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useInitials } from "@/hooks/useInitials";
-import { type User } from "@/types";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useInitials } from '@/hooks/useInitials';
+import { type User } from '@/types';
 
 export function UserInfo({
   user,
@@ -16,22 +16,18 @@ export function UserInfo({
     <>
       <Avatar className="h-12 w-12 overflow-hidden rounded-full">
         <AvatarImage src={user.avatar_url || user.avatar} alt={user.name} />
-        <AvatarFallback className="rounded-lg bg-primary text-white text-lg font-semibold font-montserrat">
+        <AvatarFallback className="font-montserrat rounded-lg bg-primary text-lg font-semibold text-white">
           {getInitials(user.name)}
         </AvatarFallback>
       </Avatar>
       <div className="grid flex-1 text-left text-sm leading-tight">
-        <span className="truncate text-base font-semibold text-text-secondary font-montserrat">
+        <span className="text-text-secondary font-montserrat truncate text-base font-semibold">
           {user.name}
         </span>
-        {showEmail && (
-          <span className="truncate text-base text-text-primary">
-            {user.email}
-          </span>
-        )}
+        {showEmail && <span className="text-text-primary truncate text-base">{user.email}</span>}
         {showRole && (
-          <span className="text-base text-text-primary font-normal">
-            {user.role_label || "Employee"}
+          <span className="text-text-primary text-base font-normal">
+            {user.role_label || 'Employee'}
           </span>
         )}
       </div>

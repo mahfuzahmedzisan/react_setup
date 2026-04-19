@@ -1,16 +1,10 @@
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { useAuth } from '@/auth/useAuth'
+import { useAuth } from '@/auth/useAuth';
 
 export default function Account() {
-  const { accessToken, authStrategy, user, logout } = useAuth()
+  const { accessToken, authStrategy, user, logout } = useAuth();
 
   return (
     <div className="mx-auto min-h-dvh max-w-5xl px-4 py-10">
@@ -34,16 +28,14 @@ export default function Account() {
             Bearer token in memory:{' '}
             <span className="font-medium">{accessToken ? 'yes' : 'no'}</span>
             {authStrategy === 'http_only_cookie' ? (
-              <span className="block text-xs">
-                (HttpOnly cookie — token never stored in JS)
-              </span>
+              <span className="block text-xs">(HttpOnly cookie — token never stored in JS)</span>
             ) : null}
           </div>
           <Button
             type="button"
             variant="outline"
             onClick={() => {
-              void logout()
+              void logout();
             }}
           >
             Logout
@@ -51,5 +43,5 @@ export default function Account() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

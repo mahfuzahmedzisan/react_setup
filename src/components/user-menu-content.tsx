@@ -1,13 +1,10 @@
-import { Link } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { LogOut } from 'lucide-react';
 
-import {
-  DropdownMenuItem,
-  DropdownMenuLabel,
-} from "@/components/ui/dropdown-menu";
-import { UserInfo } from "@/components/user-info";
-import { useMobileNavigation } from "@/hooks/useMobileNavigation";
-import type { User } from "@/types";
+import { DropdownMenuItem, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
+import { UserInfo } from '@/components/user-info';
+import { useMobileNavigation } from '@/hooks/useMobileNavigation';
+import type { User } from '@/types';
 
 interface UserMenuContentProps {
   user: User;

@@ -5,6 +5,5 @@ export function FrontendFooter() {
         © {new Date().getFullYear()} React + Vite + Laravel
       </div>
     </footer>
-  )
+  );
 }
-

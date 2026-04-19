@@ -1,12 +1,12 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-import { AdminFooter } from '@/components/partials/admin/AdminFooter'
-import { AdminHeader } from '@/components/partials/admin/AdminHeader'
-import { AdminSidebar } from '@/components/partials/admin/AdminSidebar'
-import { useNav } from '@/hooks/useNav'
+import { AdminFooter } from '@/components/partials/admin/AdminFooter';
+import { AdminHeader } from '@/components/partials/admin/AdminHeader';
+import { AdminSidebar } from '@/components/partials/admin/AdminSidebar';
+import { useNav } from '@/hooks/useNav';
 
 export function AdminLayout() {
-  const nav = useNav()
+  const nav = useNav();
 
   return (
     <div className="min-h-dvh bg-background">
@@ -19,6 +19,5 @@ export function AdminLayout() {
       </div>
       <AdminFooter />
     </div>
-  )
+  );
 }
-

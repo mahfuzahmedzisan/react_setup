@@ -1,77 +1,77 @@
-import { env, type BearerTokenPersistence } from '@/config/env'
+import { env, type BearerTokenPersistence } from '@/config/env';
 
-const STORAGE_KEY_ACCESS = 'react-vite-laravel.bearer_token'
-const STORAGE_KEY_REFRESH = 'react-vite-laravel.refresh_token'
+const STORAGE_KEY_ACCESS = 'react-vite-laravel.bearer_token';
+const STORAGE_KEY_REFRESH = 'react-vite-laravel.refresh_token';
 
 /** In-RAM only — lost on full reload. */
-let memoryAccessToken: string | null = null
-let memoryRefreshToken: string | null = null
+let memoryAccessToken: string | null = null;
+let memoryRefreshToken: string | null = null;
 
 function readAccess(mode: BearerTokenPersistence): string | null {
-  if (typeof window === 'undefined') return null
-  if (mode === 'memory') return memoryAccessToken
+  if (typeof window === 'undefined') return null;
+  if (mode === 'memory') return memoryAccessToken;
   try {
-    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY_ACCESS)
-    return localStorage.getItem(STORAGE_KEY_ACCESS)
+    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY_ACCESS);
+    return localStorage.getItem(STORAGE_KEY_ACCESS);
   } catch {
-    return null
+    return null;
   }
 }
 
 function writeAccess(mode: BearerTokenPersistence, token: string) {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined') return;
   if (mode === 'memory') {
-    memoryAccessToken = token
-    return
+    memoryAccessToken = token;
+    return;
   }
   try {
     if (mode === 'session') {
-      sessionStorage.setItem(STORAGE_KEY_ACCESS, token)
-      return
+      sessionStorage.setItem(STORAGE_KEY_ACCESS, token);
+      return;
     }
-    localStorage.setItem(STORAGE_KEY_ACCESS, token)
+    localStorage.setItem(STORAGE_KEY_ACCESS, token);
   } catch {
-    memoryAccessToken = token
+    memoryAccessToken = token;
   }
 }
 
 function readRefresh(mode: BearerTokenPersistence): string | null {
-  if (typeof window === 'undefined') return null
-  if (mode === 'memory') return memoryRefreshToken
+  if (typeof window === 'undefined') return null;
+  if (mode === 'memory') return memoryRefreshToken;
   try {
-    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY_REFRESH)
-    return localStorage.getItem(STORAGE_KEY_REFRESH)
+    if (mode === 'session') return sessionStorage.getItem(STORAGE_KEY_REFRESH);
+    return localStorage.getItem(STORAGE_KEY_REFRESH);
   } catch {
-    return null
+    return null;
   }
 }
 
 function writeRefresh(mode: BearerTokenPersistence, token: string) {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined') return;
   if (mode === 'memory') {
-    memoryRefreshToken = token
-    return
+    memoryRefreshToken = token;
+    return;
   }
   try {
     if (mode === 'session') {
-      sessionStorage.setItem(STORAGE_KEY_REFRESH, token)
-      return
+      sessionStorage.setItem(STORAGE_KEY_REFRESH, token);
+      return;
     }
-    localStorage.setItem(STORAGE_KEY_REFRESH, token)
+    localStorage.setItem(STORAGE_KEY_REFRESH, token);
   } catch {
-    memoryRefreshToken = token
+    memoryRefreshToken = token;
   }
 }
 
 function clearAllAuthStorage() {
-  memoryAccessToken = null
-  memoryRefreshToken = null
-  if (typeof window === 'undefined') return
+  memoryAccessToken = null;
+  memoryRefreshToken = null;
+  if (typeof window === 'undefined') return;
   try {
-    sessionStorage.removeItem(STORAGE_KEY_ACCESS)
-    localStorage.removeItem(STORAGE_KEY_ACCESS)
-    sessionStorage.removeItem(STORAGE_KEY_REFRESH)
-    localStorage.removeItem(STORAGE_KEY_REFRESH)
+    sessionStorage.removeItem(STORAGE_KEY_ACCESS);
+    localStorage.removeItem(STORAGE_KEY_ACCESS);
+    sessionStorage.removeItem(STORAGE_KEY_REFRESH);
+    localStorage.removeItem(STORAGE_KEY_REFRESH);
   } catch {
     // ignore
   }
@@ -81,13 +81,13 @@ function clearAllAuthStorage() {
  * Passport Bearer access token (only for `bearer_memory` strategy).
  */
 export function getAccessToken(): string | null {
-  if (env.authStrategy === 'http_only_cookie') return null
-  return readAccess(env.bearerTokenPersistence)
+  if (env.authStrategy === 'http_only_cookie') return null;
+  return readAccess(env.bearerTokenPersistence);
 }
 
 export function setAccessToken(token: string) {
-  if (env.authStrategy === 'http_only_cookie') return
-  writeAccess(env.bearerTokenPersistence, token)
+  if (env.authStrategy === 'http_only_cookie') return;
+  writeAccess(env.bearerTokenPersistence, token);
 }
 
 /**
@@ -95,17 +95,17 @@ export function setAccessToken(token: string) {
  */
 export function getRefreshToken(): string | null {
   if (env.authStrategy === 'http_only_cookie' || !env.refreshTokenEnabled) {
-    return null
+    return null;
   }
-  return readRefresh(env.bearerTokenPersistence)
+  return readRefresh(env.bearerTokenPersistence);
 }
 
 export function setRefreshToken(token: string) {
-  if (env.authStrategy === 'http_only_cookie' || !env.refreshTokenEnabled) return
-  writeRefresh(env.bearerTokenPersistence, token)
+  if (env.authStrategy === 'http_only_cookie' || !env.refreshTokenEnabled) return;
+  writeRefresh(env.bearerTokenPersistence, token);
 }
 
 /** Clears access + refresh tokens (logout / invalid session). */
 export function clearAccessToken() {
-  clearAllAuthStorage()
+  clearAllAuthStorage();
 }

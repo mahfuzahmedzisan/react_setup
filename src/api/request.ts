@@ -1,4 +1,4 @@
-import { api } from '@/api/client'
+import { api } from '@/api/client';
 
 export const request = {
   get: api.get,
@@ -6,5 +6,4 @@ export const request = {
   put: api.put,
   patch: api.patch,
   delete: api.delete,
-}
-
+};

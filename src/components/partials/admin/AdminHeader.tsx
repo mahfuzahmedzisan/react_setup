@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button'
-import { useAuth } from '@/auth/useAuth'
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/auth/useAuth';
 
 export function AdminHeader({ onToggleSidebar }: { onToggleSidebar: () => void }) {
-  const { logout } = useAuth()
+  const { logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -21,13 +21,12 @@ export function AdminHeader({ onToggleSidebar }: { onToggleSidebar: () => void }
           type="button"
           variant="outline"
           onClick={() => {
-            void logout()
+            void logout();
           }}
         >
           Logout
         </Button>
       </div>
     </header>
-  )
+  );
 }
-

@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { DashboardLayout } from '@/layouts/DashboardLayout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function AdminProducts() {
   return (
@@ -21,6 +21,5 @@ export default function AdminProducts() {
         </CardContent>
       </Card>
     </DashboardLayout>
-  )
+  );
 }
-

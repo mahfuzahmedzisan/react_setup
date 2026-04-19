@@ -1,105 +1,103 @@
-import * as React from 'react'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import * as React from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
   extractBearerTokenFromLoginBody,
   extractRefreshTokenFromLoginBody,
   extractUserFromAuthPayload,
-} from '@/api/laravelResponse'
-import { useAuth } from '@/auth/useAuth'
-import { request } from '@/api/request'
-import { env } from '@/config/env'
-import { setRefreshToken } from '@/auth/token'
-import { rolePolicy } from '@/auth/rolePolicy'
-import { getUserRoles } from '@/auth/roles'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+} from '@/api/laravelResponse';
+import { useAuth } from '@/auth/useAuth';
+import { request } from '@/api/request';
+import { env } from '@/config/env';
+import { setRefreshToken } from '@/auth/token';
+import { rolePolicy } from '@/auth/rolePolicy';
+import { getUserRoles } from '@/auth/roles';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 function nextParamPointsAtLoginLoop(nextRaw: string | null) {
-  if (!nextRaw) return false
-  let s = nextRaw
+  if (!nextRaw) return false;
+  let s = nextRaw;
   for (let i = 0; i < 8; i++) {
-    if (s.includes('/login')) return true
+    if (s.includes('/login')) return true;
     try {
-      s = decodeURIComponent(s)
+      s = decodeURIComponent(s);
     } catch {
-      return true
+      return true;
     }
   }
-  return s.includes('/login')
+  return s.includes('/login');
 }
 
 export default function Login() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [searchParams] = useSearchParams()
-  const { setToken, setUser, refreshSession, authStrategy } = useAuth()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const { setToken, setUser, refreshSession, authStrategy } = useAuth();
 
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
-  const [error, setError] = React.useState<string | null>(null)
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    const next = searchParams.get('next')
+    const next = searchParams.get('next');
     if (nextParamPointsAtLoginLoop(next)) {
-      navigate('/login', { replace: true })
+      navigate('/login', { replace: true });
     }
-  }, [navigate, searchParams])
+  }, [navigate, searchParams]);
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
     try {
-      const res = await request.post<unknown>('/login', { email, password })
-      const body = res.data
-      const loggedInUser = extractUserFromAuthPayload(body)
+      const res = await request.post<unknown>('/login', { email, password });
+      const body = res.data;
+      const loggedInUser = extractUserFromAuthPayload(body);
 
       if (authStrategy === 'http_only_cookie') {
-        const u = await refreshSession()
+        const u = await refreshSession();
         if (!u) {
           throw new Error(
             'No session cookie detected. Your Laravel API returns a Bearer token in JSON, not HttpOnly cookies. Set VITE_AUTH_STRATEGY=bearer_memory in .env and restart the dev server.',
-          )
+          );
         }
       } else {
-        const token = extractBearerTokenFromLoginBody(body)
+        const token = extractBearerTokenFromLoginBody(body);
         if (!token) {
           throw new Error(
             'Login response did not include a token. Expected Laravel sendResponse data.token or data.access_token.',
-          )
+          );
         }
-        setToken(token)
-        const refresh = extractRefreshTokenFromLoginBody(body)
-        if (refresh) setRefreshToken(refresh)
-        if (loggedInUser) setUser(loggedInUser)
-        await refreshSession()
+        setToken(token);
+        const refresh = extractRefreshTokenFromLoginBody(body);
+        if (refresh) setRefreshToken(refresh);
+        if (loggedInUser) setUser(loggedInUser);
+        await refreshSession();
       }
 
-      const from = (location.state as { from?: { pathname?: string } } | null)?.from
-        ?.pathname
+      const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname;
       if (from) {
-        navigate(from, { replace: true })
-        return
+        navigate(from, { replace: true });
+        return;
       }
       // Role-aware post-login landing (policy-driven)
-      const roles = getUserRoles(loggedInUser)
+      const roles = getUserRoles(loggedInUser);
       for (const r of roles) {
-        const dash = rolePolicy[r]?.dashboard
+        const dash = rolePolicy[r]?.dashboard;
         if (dash) {
-          navigate(dash, { replace: true })
-          return
+          navigate(dash, { replace: true });
+          return;
         }
       }
-      navigate('/dashboard', { replace: true })
+      navigate('/dashboard', { replace: true });
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'Login failed. Please try again.'
-      setError(message)
+      const message = err instanceof Error ? err.message : 'Login failed. Please try again.';
+      setError(message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -154,5 +152,5 @@ export default function Login() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

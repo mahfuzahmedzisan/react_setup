@@ -1,16 +1,16 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 
-import { rolePolicy } from '@/auth/rolePolicy'
-import { getUserRoles, hasAnyRole } from '@/auth/roles'
-import { useAuth } from '@/auth/useAuth'
-import { env } from '@/config/env'
+import { rolePolicy } from '@/auth/rolePolicy';
+import { getUserRoles, hasAnyRole } from '@/auth/roles';
+import { useAuth } from '@/auth/useAuth';
+import { env } from '@/config/env';
 
 function pickDashboardForUserRoles(roles: string[]): string {
   for (const r of roles) {
-    const dash = rolePolicy[r]?.dashboard
-    if (dash) return dash
+    const dash = rolePolicy[r]?.dashboard;
+    if (dash) return dash;
   }
-  return '/dashboard'
+  return '/dashboard';
 }
 
 /**
@@ -28,33 +28,32 @@ export function GuestGate({
   children,
 }: {
   /** If set, only users with these roles get redirected away in multi-login mode. */
-  roleScope?: string | string[]
+  roleScope?: string | string[];
   /** Optional override for where to send authenticated users. */
-  redirectTo?: string
-  children: React.ReactNode
+  redirectTo?: string;
+  children: React.ReactNode;
 }) {
-  const { isAuthenticated, isSessionLoading, isUserLoading, user } = useAuth()
+  const { isAuthenticated, isSessionLoading, isUserLoading, user } = useAuth();
 
   if (isSessionLoading || isUserLoading) {
     return (
       <div className="flex min-h-dvh items-center justify-center text-sm text-muted-foreground">
         Loading…
       </div>
-    )
+    );
   }
 
-  if (!isAuthenticated) return children
+  if (!isAuthenticated) return children;
 
-  const roles = getUserRoles(user)
-  const recommended = redirectTo ?? pickDashboardForUserRoles(roles)
+  const roles = getUserRoles(user);
+  const recommended = redirectTo ?? pickDashboardForUserRoles(roles);
 
   if (env.loginMode === 'single') {
-    return <Navigate to={recommended} replace />
+    return <Navigate to={recommended} replace />;
   }
 
   // multi login mode: only redirect away if this is the user's own role login page
-  if (!roleScope) return children
-  if (!hasAnyRole(user, roleScope)) return children
-  return <Navigate to={recommended} replace />
+  if (!roleScope) return children;
+  if (!hasAnyRole(user, roleScope)) return children;
+  return <Navigate to={recommended} replace />;
 }
-

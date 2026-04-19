@@ -1,13 +1,13 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom';
 
-import { useAuth } from '@/auth/useAuth'
-import { Button } from '@/components/ui/button'
-import { useAppearance } from '@/hooks/useAppearance'
-import { cn } from '@/lib/utils'
+import { useAuth } from '@/auth/useAuth';
+import { Button } from '@/components/ui/button';
+import { useAppearance } from '@/hooks/useAppearance';
+import { cn } from '@/lib/utils';
 
 export function FrontendHeader() {
-  const { isAuthenticated, logout } = useAuth()
-  const { theme, toggleTheme } = useAppearance()
+  const { isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useAppearance();
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -20,10 +20,7 @@ export function FrontendHeader() {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              cn(
-                'text-muted-foreground hover:text-foreground',
-                isActive && 'text-foreground',
-              )
+              cn('text-muted-foreground hover:text-foreground', isActive && 'text-foreground')
             }
             end
           >
@@ -32,10 +29,7 @@ export function FrontendHeader() {
           <NavLink
             to="/cart"
             className={({ isActive }) =>
-              cn(
-                'text-muted-foreground hover:text-foreground',
-                isActive && 'text-foreground',
-              )
+              cn('text-muted-foreground hover:text-foreground', isActive && 'text-foreground')
             }
           >
             Cart
@@ -51,7 +45,7 @@ export function FrontendHeader() {
               type="button"
               variant="outline"
               onClick={() => {
-                void logout()
+                void logout();
               }}
             >
               Logout
@@ -64,6 +58,5 @@ export function FrontendHeader() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-

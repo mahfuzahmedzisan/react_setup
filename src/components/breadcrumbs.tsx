@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Fragment } from "react";
+import { Link } from 'react-router-dom';
+import { Fragment } from 'react';
 
 import {
   Breadcrumb,
@@ -8,14 +8,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { type BreadcrumbItem as BreadcrumbItemType } from "@/types";
+} from '@/components/ui/breadcrumb';
+import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
-export function Breadcrumbs({
-  breadcrumbs,
-}: {
-  breadcrumbs: BreadcrumbItemType[];
-}) {
+export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
   return (
     <>
       {breadcrumbs.length > 0 && (

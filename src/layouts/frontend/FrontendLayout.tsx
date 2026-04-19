@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-import { FrontendFooter } from '@/components/partials/frontend/FrontendFooter'
-import { FrontendHeader } from '@/components/partials/frontend/FrontendHeader'
+import { FrontendFooter } from '@/components/partials/frontend/FrontendFooter';
+import { FrontendHeader } from '@/components/partials/frontend/FrontendHeader';
 
 export function FrontendLayout() {
   return (
@@ -12,6 +12,5 @@ export function FrontendLayout() {
       </main>
       <FrontendFooter />
     </div>
-  )
+  );
 }
-

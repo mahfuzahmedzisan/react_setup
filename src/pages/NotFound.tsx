@@ -1,25 +1,25 @@
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "motion/react";
-import { MoveLeft, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { MoveLeft, Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-dvh w-full flex items-center justify-center overflow-hidden bg-background">
+    <div className="relative flex min-h-dvh w-full items-center justify-center overflow-hidden bg-background">
       {/* Background Decorative Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -z-10" />
+      <div className="absolute top-1/2 left-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]" />
 
-      <div className="container-fluid mx-auto px-4 flex flex-col items-center justify-center relative z-10">
+      <div className="container-fluid relative z-10 mx-auto flex flex-col items-center justify-center px-4">
         {/* Animated Number */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
           className="relative"
         >
-          <h1 className="text-[12rem] md:text-[18rem] font-black leading-none tracking-tighter text-foreground/5 select-none">
+          <h1 className="text-[12rem] leading-none font-black tracking-tighter text-foreground/5 select-none md:text-[18rem]">
             404
           </h1>
           <div className="absolute inset-0 flex items-center justify-center">
@@ -29,12 +29,12 @@ export default function NotFound() {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-center"
             >
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">
                 Lost in space?
               </h2>
-              <p className="mt-4 text-muted-foreground text-lg max-w-[400px] mx-auto">
-                The page you're looking for has vanished into the digital void.
-                Let's get you back on track.
+              <p className="mx-auto mt-4 max-w-[400px] text-lg text-muted-foreground">
+                The page you're looking for has vanished into the digital void. Let's get you back
+                on track.
               </p>
             </motion.div>
           </div>
@@ -45,25 +45,25 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="mt-12 flex flex-col sm:flex-row items-center gap-4"
+          className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
         >
           <Button
             variant="outline"
             size="lg"
             onClick={() => navigate(-1)}
-            className="rounded-full px-8 h-14 text-base font-semibold group border-border/50 hover:bg-muted"
+            className="group h-14 rounded-full border-border/50 px-8 text-base font-semibold hover:bg-muted"
           >
-            <MoveLeft className="mr-2 w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <MoveLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Go Back
           </Button>
 
           <Button
             asChild
             size="lg"
-            className="rounded-full px-8 h-14 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+            className="h-14 rounded-full px-8 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
           >
             <Link to="/">
-              <Home className="mr-2 w-4 h-4" />
+              <Home className="mr-2 h-4 w-4" />
               Return Home
             </Link>
           </Button>
@@ -71,7 +71,7 @@ export default function NotFound() {
       </div>
 
       {/* Subtle Grid Background (Optional) */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] -z-20" />
+      <div className="absolute inset-0 -z-20 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:40px_40px]" />
     </div>
   );
 }

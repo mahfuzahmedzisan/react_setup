@@ -1,76 +1,75 @@
 function required(name: string) {
-  const v = (import.meta.env as Record<string, string | undefined>)[name]
-  if (!v) throw new Error(`Missing required env var: ${name}`)
-  return v
+  const v = (import.meta.env as Record<string, string | undefined>)[name];
+  if (!v) throw new Error(`Missing required env var: ${name}`);
+  return v;
 }
 
-export type AuthStrategy = 'bearer_memory' | 'http_only_cookie'
+export type AuthStrategy = 'bearer_memory' | 'http_only_cookie';
 
 /** Where to keep the Bearer token when using Passport JSON (no HttpOnly cookie from API). */
-export type BearerTokenPersistence = 'memory' | 'session' | 'local'
+export type BearerTokenPersistence = 'memory' | 'session' | 'local';
 
 /** How to interpret roles on the user object. */
-export type RoleMode = 'single' | 'multi'
+export type RoleMode = 'single' | 'multi';
 
 /** Whether login pages are single (global) or role-specific. */
-export type LoginMode = 'single' | 'multi'
+export type LoginMode = 'single' | 'multi';
 
-export type LogoutMode = 'single' | 'multi'
+export type LogoutMode = 'single' | 'multi';
 
 function authStrategyFromEnv(): AuthStrategy {
-  const raw = (import.meta.env.VITE_AUTH_STRATEGY as string | undefined)?.toLowerCase()
-  if (raw === 'http_only_cookie' || raw === 'cookie') return 'http_only_cookie'
-  return 'bearer_memory'
+  const raw = (import.meta.env.VITE_AUTH_STRATEGY as string | undefined)?.toLowerCase();
+  if (raw === 'http_only_cookie' || raw === 'cookie') return 'http_only_cookie';
+  return 'bearer_memory';
 }
 
 function bearerTokenPersistenceFromEnv(): BearerTokenPersistence {
-  const raw = (import.meta.env.VITE_BEARER_TOKEN_STORAGE as string | undefined)?.toLowerCase()
-  if (raw === 'memory' || raw === 'ram') return 'memory'
-  if (raw === 'local' || raw === 'localstorage') return 'local'
-  if (raw === 'session' || raw === 'sessionstorage') return 'session'
+  const raw = (import.meta.env.VITE_BEARER_TOKEN_STORAGE as string | undefined)?.toLowerCase();
+  if (raw === 'memory' || raw === 'ram') return 'memory';
+  if (raw === 'local' || raw === 'localstorage') return 'local';
+  if (raw === 'session' || raw === 'sessionstorage') return 'session';
   // Default: survives hard refresh in this tab; standard SPA compromise when API only returns Bearer JSON
-  return 'session'
+  return 'session';
 }
 
 function roleModeFromEnv(): RoleMode {
-  const raw = (import.meta.env.VITE_ROLE_MODE as string | undefined)?.toLowerCase()
-  if (raw === 'multi' || raw === 'multiple') return 'multi'
-  return 'single'
+  const raw = (import.meta.env.VITE_ROLE_MODE as string | undefined)?.toLowerCase();
+  if (raw === 'multi' || raw === 'multiple') return 'multi';
+  return 'single';
 }
 
 function rolePolicyJsonFromEnv(): unknown | null {
-  const raw = (import.meta.env.VITE_ROLE_POLICY_JSON as string | undefined)?.trim()
-  if (!raw) return null
+  const raw = (import.meta.env.VITE_ROLE_POLICY_JSON as string | undefined)?.trim();
+  if (!raw) return null;
   try {
-    return JSON.parse(raw)
+    return JSON.parse(raw);
   } catch {
-    return null
+    return null;
   }
 }
 
 function loginModeFromEnv(): LoginMode {
-  const raw = (import.meta.env.VITE_LOGIN_MODE as string | undefined)?.toLowerCase()
-  if (raw === 'multi' || raw === 'multiple') return 'multi'
-  return 'single'
+  const raw = (import.meta.env.VITE_LOGIN_MODE as string | undefined)?.toLowerCase();
+  if (raw === 'multi' || raw === 'multiple') return 'multi';
+  return 'single';
 }
 
 function logoutModeFromEnv(): LogoutMode {
-  const raw = (import.meta.env.VITE_LOGOUT_MODE as string | undefined)?.toLowerCase()
-  if (raw === 'multi' || raw === 'multiple') return 'multi'
-  return 'single'
+  const raw = (import.meta.env.VITE_LOGOUT_MODE as string | undefined)?.toLowerCase();
+  if (raw === 'multi' || raw === 'multiple') return 'multi';
+  return 'single';
 }
 
 function refreshTokenConfigFromEnv() {
-  const enabledFlag = import.meta.env.VITE_REFRESH_TOKEN_ENABLED === 'true'
-  const path = (import.meta.env.VITE_AUTH_REFRESH_PATH as string | undefined)?.trim() ?? ''
+  const enabledFlag = import.meta.env.VITE_REFRESH_TOKEN_ENABLED === 'true';
+  const path = (import.meta.env.VITE_AUTH_REFRESH_PATH as string | undefined)?.trim() ?? '';
   const key =
-    (import.meta.env.VITE_REFRESH_TOKEN_BODY_KEY as string | undefined)?.trim() ||
-    'refresh_token'
-  const enabled = enabledFlag && path.length > 0
-  return { enabled, path, bodyKey: key }
+    (import.meta.env.VITE_REFRESH_TOKEN_BODY_KEY as string | undefined)?.trim() || 'refresh_token';
+  const enabled = enabledFlag && path.length > 0;
+  return { enabled, path, bodyKey: key };
 }
 
-const refreshTokenEnv = refreshTokenConfigFromEnv()
+const refreshTokenEnv = refreshTokenConfigFromEnv();
 
 export const env = {
   mode: import.meta.env.MODE,
@@ -109,4 +108,4 @@ export const env = {
   authRefreshPath: refreshTokenEnv.path,
   /** JSON body field name for the refresh token (default `refresh_token`) */
   refreshTokenBodyKey: refreshTokenEnv.bodyKey,
-}
+};

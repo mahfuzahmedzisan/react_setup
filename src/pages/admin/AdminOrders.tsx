@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { DashboardLayout } from '@/layouts/DashboardLayout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function AdminOrders() {
   return (
@@ -16,11 +16,8 @@ export default function AdminOrders() {
         <CardHeader>
           <CardTitle>Orders</CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          Admin orders page stub.
-        </CardContent>
+        <CardContent className="text-sm text-muted-foreground">Admin orders page stub.</CardContent>
       </Card>
     </DashboardLayout>
-  )
+  );
 }
-

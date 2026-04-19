@@ -1,26 +1,26 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom'
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 
-import Home from '@/pages/Home'
-import Cart from '@/pages/Cart'
-import NotFound from '@/pages/NotFound'
-import Unauthorized from '@/pages/Unauthorized'
+import Home from '@/pages/Home';
+import Cart from '@/pages/Cart';
+import NotFound from '@/pages/NotFound';
+import Unauthorized from '@/pages/Unauthorized';
 
-import Login from '@/pages/Login'
+import Login from '@/pages/Login';
 
-import UserDashboard from '@/pages/user/UserDashboard'
-import Account from '@/pages/Account'
+import UserDashboard from '@/pages/user/UserDashboard';
+import Account from '@/pages/Account';
 
-import AdminDashboard from '@/pages/admin/AdminDashboard'
-import AdminUsers from '@/pages/admin/AdminUsers'
-import AdminOrders from '@/pages/admin/AdminOrders'
-import AdminProducts from '@/pages/admin/AdminProducts'
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminOrders from '@/pages/admin/AdminOrders';
+import AdminProducts from '@/pages/admin/AdminProducts';
 
-import { FrontendLayout } from '@/layouts/frontend/FrontendLayout'
-import { AuthLayout } from '@/layouts/auth/AuthLayout'
-import { AdminLayout } from '@/layouts/admin/AdminLayout'
+import { FrontendLayout } from '@/layouts/frontend/FrontendLayout';
+import { AuthLayout } from '@/layouts/auth/AuthLayout';
+import { AdminLayout } from '@/layouts/admin/AdminLayout';
 
-import { RoleGate } from '@/routes/RoleGate'
-import { GuestGate } from '@/routes/GuestGate'
+import { RoleGate } from '@/routes/RoleGate';
+import { GuestGate } from '@/routes/GuestGate';
 
 export const router = createBrowserRouter([
   {
@@ -75,4 +75,4 @@ export const router = createBrowserRouter([
     path: '*',
     element: <NotFound />,
   },
-])
+]);

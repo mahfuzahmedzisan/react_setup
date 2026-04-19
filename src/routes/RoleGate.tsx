@@ -1,13 +1,13 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from 'react-router-dom';
 
-import { useAuth } from "@/auth/useAuth";
-import { getRoleFallback } from "@/auth/rolePolicy";
-import { hasAnyRole } from "@/auth/roles";
+import { useAuth } from '@/auth/useAuth';
+import { getRoleFallback } from '@/auth/rolePolicy';
+import { hasAnyRole } from '@/auth/roles';
 
 export function RoleGate({
   allow,
   fallback,
-  unauthenticatedTo = "/login",
+  unauthenticatedTo = '/login',
   children,
 }: {
   allow: string | string[];
@@ -28,17 +28,13 @@ export function RoleGate({
   }
 
   if (!isAuthenticated) {
-    return (
-      <Navigate to={unauthenticatedTo} replace state={{ from: location }} />
-    );
+    return <Navigate to={unauthenticatedTo} replace state={{ from: location }} />;
   }
 
   if (!hasAnyRole(user, allow)) {
     const userRole = (user as { role?: string } | null)?.role;
     const resolvedFallback =
-      fallback ??
-      (userRole ? getRoleFallback(userRole) : undefined) ??
-      "/unauthorized";
+      fallback ?? (userRole ? getRoleFallback(userRole) : undefined) ?? '/unauthorized';
     return <Navigate to={resolvedFallback} replace />;
   }
 

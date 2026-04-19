@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom'
-import { ArrowRight, ShoppingBag } from 'lucide-react'
+import { Link } from 'react-router-dom';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { useFeaturedProducts } from '@/features/products/useFeaturedProducts'
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useFeaturedProducts } from '@/features/products/useFeaturedProducts';
 
 export default function Home() {
-  const { data: products = [] } = useFeaturedProducts()
+  const { data: products = [] } = useFeaturedProducts();
 
   return (
     <div className="min-h-dvh bg-background">
@@ -54,12 +54,12 @@ export default function Home() {
                   Fast delivery • Easy returns • Secure checkout
                 </span>
               </div>
-              <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+              <h1 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">
                 Everything you need for a modern lifestyle.
               </h1>
               <p className="max-w-prose text-pretty text-muted-foreground">
-                Discover curated essentials, trending picks, and deals that feel too good to be true.
-                Built for speed, designed for trust.
+                Discover curated essentials, trending picks, and deals that feel too good to be
+                true. Built for speed, designed for trust.
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button type="button" className="gap-2">
@@ -90,7 +90,9 @@ export default function Home() {
                 <Card key={p.id} className="overflow-hidden">
                   <CardHeader className="space-y-2">
                     <CardTitle className="text-base">{p.name}</CardTitle>
-                    <p className="text-sm text-muted-foreground">{p.subtitle ?? 'Limited stock available'}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {p.subtitle ?? 'Limited stock available'}
+                    </p>
                   </CardHeader>
                   <CardContent>
                     <div className="h-24 rounded-md bg-[linear-gradient(135deg,hsla(var(--primary)/0.15),transparent_60%)]" />
@@ -138,9 +140,7 @@ export default function Home() {
         <section id="featured" className="mx-auto max-w-6xl px-4 pb-16">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold tracking-tight">Featured products</h2>
-            <p className="text-sm text-muted-foreground">
-              Popular right now. Updated daily.
-            </p>
+            <p className="text-sm text-muted-foreground">Popular right now. Updated daily.</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -151,7 +151,9 @@ export default function Home() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="font-semibold">{p.name}</div>
-                      <div className="text-sm text-muted-foreground">{p.subtitle ?? 'Best seller'}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {p.subtitle ?? 'Best seller'}
+                      </div>
                     </div>
                     {p.badge ? <Badge>{p.badge}</Badge> : null}
                   </div>
@@ -185,6 +187,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
-

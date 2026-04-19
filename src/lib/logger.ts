@@ -1,10 +1,10 @@
-import { isDebugLike } from '@/lib/env'
+import { isDebugLike } from '@/lib/env';
 
-type LogPayload = unknown[]
+type LogPayload = unknown[];
 
 function safeLog(method: 'debug' | 'info' | 'warn' | 'error', ...args: LogPayload) {
-  if (!isDebugLike) return
-  console[method](...args)
+  if (!isDebugLike) return;
+  console[method](...args);
 }
 
 export const logger = {
@@ -13,13 +13,12 @@ export const logger = {
   warn: (...args: LogPayload) => safeLog('warn', ...args),
   error: (...args: LogPayload) => safeLog('error', ...args),
   group: (label: string, fn: () => void) => {
-    if (!isDebugLike) return
-    console.groupCollapsed(label)
+    if (!isDebugLike) return;
+    console.groupCollapsed(label);
     try {
-      fn()
+      fn();
     } finally {
-      console.groupEnd()
+      console.groupEnd();
     }
   },
-}
-
+};

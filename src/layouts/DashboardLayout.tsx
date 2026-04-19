@@ -1,18 +1,18 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export type NavItem = { label: string; to: string }
+export type NavItem = { label: string; to: string };
 
 export function DashboardLayout({
   title,
   nav,
   children,
 }: {
-  title: string
-  nav: NavItem[]
-  children: React.ReactNode
+  title: string;
+  nav: NavItem[];
+  children: React.ReactNode;
 }) {
   return (
     <div className="min-h-dvh bg-background">
@@ -51,6 +51,5 @@ export function DashboardLayout({
         </div>
       </footer>
     </div>
-  )
+  );
 }
-

@@ -1,20 +1,19 @@
-import { logError } from '@/lib/error.utils'
+import { logError } from '@/lib/error.utils';
 
 export function attachGlobalErrorCapture() {
   const onWindowError = (event: ErrorEvent) => {
-    logError(event.error ?? event.message, 'window.onerror')
-  }
+    logError(event.error ?? event.message, 'window.onerror');
+  };
 
   const onUnhandledRejection = (event: PromiseRejectionEvent) => {
-    logError(event.reason, 'window.onunhandledrejection')
-  }
+    logError(event.reason, 'window.onunhandledrejection');
+  };
 
-  window.addEventListener('error', onWindowError)
-  window.addEventListener('unhandledrejection', onUnhandledRejection)
+  window.addEventListener('error', onWindowError);
+  window.addEventListener('unhandledrejection', onUnhandledRejection);
 
   return () => {
-    window.removeEventListener('error', onWindowError)
-    window.removeEventListener('unhandledrejection', onUnhandledRejection)
-  }
+    window.removeEventListener('error', onWindowError);
+    window.removeEventListener('unhandledrejection', onUnhandledRejection);
+  };
 }
-

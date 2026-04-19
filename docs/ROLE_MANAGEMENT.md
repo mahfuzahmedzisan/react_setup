@@ -50,7 +50,7 @@ Example (admin-only, custom fallback):
 Example (allow multiple roles):
 
 ```tsx
-<RoleGate allow={["admin", "vendor"]} fallback="/unauthorized">
+<RoleGate allow={['admin', 'vendor']} fallback="/unauthorized">
   <VendorArea />
 </RoleGate>
 ```
@@ -87,4 +87,3 @@ See `src/routes/router.tsx` for example setup:
 ## Security note
 
 Role checks in the SPA are for **UX and navigation**. You must still enforce authorization on the server for each API endpoint.
-

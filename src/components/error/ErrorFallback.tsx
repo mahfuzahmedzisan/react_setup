@@ -1,14 +1,14 @@
-import { type FallbackProps } from 'react-error-boundary'
-import { Link } from 'react-router-dom'
+import { type FallbackProps } from 'react-error-boundary';
+import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { getErrorMessage, getErrorStack } from '@/lib/error.utils'
-import { isDebugLike } from '@/lib/env'
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getErrorMessage, getErrorStack } from '@/lib/error.utils';
+import { isDebugLike } from '@/lib/env';
 
 export function ErrorFallback({ error }: FallbackProps) {
-  const message = getErrorMessage(error)
-  const stack = getErrorStack(error)
+  const message = getErrorMessage(error);
+  const stack = getErrorStack(error);
 
   return (
     <div
@@ -45,6 +45,5 @@ export function ErrorFallback({ error }: FallbackProps) {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

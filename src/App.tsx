@@ -1,8 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { AppBootstrap } from "@/AppBootstrap";
-import { AuthProvider } from "@/auth/AuthProvider";
-import { ErrorBoundary } from "@/components/error/ErrorBoundary";
+import { AppBootstrap } from '@/AppBootstrap';
+import { AuthProvider } from '@/auth/AuthProvider';
+import { ErrorBoundary } from '@/components/error/ErrorBoundary';
 
 const queryClient = new QueryClient();
 

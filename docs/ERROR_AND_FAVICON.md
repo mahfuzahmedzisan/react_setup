@@ -74,9 +74,9 @@ If `VITE_FAVICON_API_URL` is not set, system stays in manual/fallback mode.
 ## Manual usage example
 
 ```ts
-import { setFavicon } from '@/utils/favicon'
+import { setFavicon } from '@/utils/favicon';
 
-setFavicon('https://cdn.example.com/brand/favicon.ico')
+setFavicon('https://cdn.example.com/brand/favicon.ico');
 ```
 
 ## Notes
@@ -84,4 +84,3 @@ setFavicon('https://cdn.example.com/brand/favicon.ico')
 - In production UI, stack traces are hidden from users.
 - Global runtime errors are captured and logged through a single utility path.
 - Favicon fetch is optimized to avoid redundant API requests.
-

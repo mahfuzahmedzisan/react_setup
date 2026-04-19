@@ -1,7 +1,7 @@
-import { type FallbackProps } from 'react-error-boundary'
+import { type FallbackProps } from 'react-error-boundary';
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -28,6 +28,5 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

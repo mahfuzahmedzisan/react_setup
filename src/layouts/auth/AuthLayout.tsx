@@ -1,14 +1,14 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 
-import { FrontendFooter } from '@/components/partials/frontend/FrontendFooter'
-import { FrontendHeader } from '@/components/partials/frontend/FrontendHeader'
+import { FrontendFooter } from '@/components/partials/frontend/FrontendFooter';
+import { FrontendHeader } from '@/components/partials/frontend/FrontendHeader';
 
 export function AuthLayout({
   showHeader = true,
   showFooter = true,
 }: {
-  showHeader?: boolean
-  showFooter?: boolean
+  showHeader?: boolean;
+  showFooter?: boolean;
 }) {
   return (
     <div className="min-h-dvh bg-background">
@@ -18,6 +18,5 @@ export function AuthLayout({
       </main>
       {showFooter ? <FrontendFooter /> : null}
     </div>
-  )
+  );
 }
-

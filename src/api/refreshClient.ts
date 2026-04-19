@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 
-import { getXsrfTokenFromCookie } from '@/auth/csrf'
-import { env } from '@/config/env'
+import { getXsrfTokenFromCookie } from '@/auth/csrf';
+import { env } from '@/config/env';
 
 /**
  * Axios instance for token refresh only — no global 401→/login interceptor
@@ -14,16 +14,16 @@ export const refreshClient = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true,
-})
+});
 
 refreshClient.interceptors.request.use((config) => {
-  config.headers = config.headers ?? {}
-  const method = config.method?.toLowerCase() ?? 'post'
+  config.headers = config.headers ?? {};
+  const method = config.method?.toLowerCase() ?? 'post';
   if (['post', 'put', 'patch', 'delete'].includes(method)) {
-    const xsrf = getXsrfTokenFromCookie()
+    const xsrf = getXsrfTokenFromCookie();
     if (xsrf) {
-      config.headers['X-XSRF-TOKEN'] = xsrf
+      config.headers['X-XSRF-TOKEN'] = xsrf;
     }
   }
-  return config
-})
+  return config;
+});

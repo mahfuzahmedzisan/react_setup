@@ -1,4 +1,4 @@
-import { type Product } from '@/features/products/types'
+import { type Product } from '@/features/products/types';
 
 export const featuredProducts: Product[] = [
   {
@@ -40,5 +40,4 @@ export const featuredProducts: Product[] = [
     subtitle: 'Warm light, modern build',
     price: { currency: 'USD', amount: 49 },
   },
-]
-
+];
