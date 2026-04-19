@@ -17,7 +17,7 @@ export default function Home() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <ShoppingBag className="h-4 w-4" />
             </span>
-            <span>React + Vite + Laravel</span>
+            <span>React + Vite + Laravelss</span>
           </Link>
 
           <nav className="hidden items-center gap-6 text-sm md:flex">
