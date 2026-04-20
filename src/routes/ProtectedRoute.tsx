@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { useAuth } from '@/auth/useAuth';
+import Loading from '@/components/Loading';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isSessionLoading } = useAuth();
@@ -8,8 +9,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (isSessionLoading) {
     return (
-      <div className="flex min-h-dvh items-center justify-center text-sm text-muted-foreground">
-        Loading…
+      <div className="flex min-h-dvh items-center justify-center">
+        <Loading />
       </div>
     );
   }

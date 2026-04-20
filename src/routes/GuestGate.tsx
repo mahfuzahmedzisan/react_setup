@@ -4,6 +4,7 @@ import { rolePolicy } from '@/auth/rolePolicy';
 import { getUserRoles, hasAnyRole } from '@/auth/roles';
 import { useAuth } from '@/auth/useAuth';
 import { env } from '@/config/env';
+import Loading from '@/components/Loading';
 
 function pickDashboardForUserRoles(roles: string[]): string {
   for (const r of roles) {
@@ -37,8 +38,8 @@ export function GuestGate({
 
   if (isSessionLoading || isUserLoading) {
     return (
-      <div className="flex min-h-dvh items-center justify-center text-sm text-muted-foreground">
-        Loading…
+      <div className="flex min-h-dvh items-center justify-center">
+        <Loading />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/auth/useAuth';
 import { getRoleFallback } from '@/auth/rolePolicy';
 import { hasAnyRole } from '@/auth/roles';
+import Loading from '@/components/Loading';
 
 export function RoleGate({
   allow,
@@ -21,8 +22,8 @@ export function RoleGate({
 
   if (isSessionLoading || isUserLoading) {
     return (
-      <div className="flex min-h-dvh items-center justify-center text-sm text-muted-foreground">
-        Loading…
+      <div className="flex min-h-dvh items-center justify-center">
+        <Loading />
       </div>
     );
   }
