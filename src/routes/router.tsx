@@ -14,6 +14,7 @@ import AdminDashboard from '@/pages/admin/AdminDashboard';
 import AdminUsers from '@/pages/admin/AdminUsers';
 import AdminOrders from '@/pages/admin/AdminOrders';
 import AdminProducts from '@/pages/admin/AdminProducts';
+import Performance from '@/pages/Performance';
 
 import { FrontendLayout } from '@/layouts/frontend/FrontendLayout';
 import { AuthLayout } from '@/layouts/auth/AuthLayout';
@@ -69,6 +70,7 @@ export const router = createBrowserRouter([
       { path: '/admin/users', element: <AdminUsers /> },
       { path: '/admin/orders', element: <AdminOrders /> },
       { path: '/admin/products', element: <AdminProducts /> },
+      { path: '/admin/performance', element: <Performance /> },
     ],
   },
   {

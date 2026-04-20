@@ -17,6 +17,7 @@ export type LoginMode = 'single' | 'multi';
 
 export type LogoutMode = 'single' | 'multi';
 export type LanguageCode = 'en' | 'ar' | 'bn' | 'es' | 'zh' | 'hi';
+export type WebVitalsReporter = 'console' | 'backend' | 'ga4';
 
 function authStrategyFromEnv(): AuthStrategy {
   const raw = (import.meta.env.VITE_AUTH_STRATEGY as string | undefined)?.toLowerCase();
@@ -98,8 +99,27 @@ function i18nDefaultLanguageFromEnv(supported: LanguageCode[]): LanguageCode {
   return 'en';
 }
 
+function boolFromEnv(value: string | undefined, fallback = false): boolean {
+  if (value == null) return fallback;
+  return value.trim().toLowerCase() === 'true';
+}
+
+function webVitalsReportersFromEnv(): WebVitalsReporter[] {
+  const raw = (import.meta.env.VITE_WEB_VITALS_REPORTERS as string | undefined)?.trim();
+  if (!raw) return [];
+
+  const allow = new Set<WebVitalsReporter>(['console', 'backend', 'ga4']);
+  const values = raw
+    .split(',')
+    .map((item) => item.trim().toLowerCase() as WebVitalsReporter)
+    .filter((item) => allow.has(item));
+
+  return [...new Set(values)];
+}
+
 const refreshTokenEnv = refreshTokenConfigFromEnv();
 const i18nSupportedLanguages = i18nSupportedLanguagesFromEnv();
+const webVitalsReporters = webVitalsReportersFromEnv();
 
 export const env = {
   mode: import.meta.env.MODE,
@@ -142,4 +162,22 @@ export const env = {
   i18nSupportedLanguages,
   /** Default language if browser language is not supported. */
   i18nDefaultLanguage: i18nDefaultLanguageFromEnv(i18nSupportedLanguages),
+  /** Toggle real-user web-vitals collection in runtime. */
+  webVitalsEnabled: boolFromEnv(import.meta.env.VITE_WEB_VITALS_ENABLED as string | undefined),
+  /** Extra logging and debug UI behaviors. */
+  webVitalsDebug: boolFromEnv(import.meta.env.VITE_WEB_VITALS_DEBUG as string | undefined),
+  /** Enabled reporter targets: console, backend, ga4. */
+  webVitalsReporters,
+  /** Full URL or relative API path for backend intake endpoint. */
+  webVitalsBackendEndpoint: (import.meta.env.VITE_WEB_VITALS_BACKEND_ENDPOINT as string | undefined) ?? '',
+  /** Optional auth header name/value for backend endpoint calls. */
+  webVitalsBackendAuthHeaderName:
+    (import.meta.env.VITE_WEB_VITALS_BACKEND_AUTH_HEADER as string | undefined) ?? '',
+  webVitalsBackendAuthHeaderValue:
+    (import.meta.env.VITE_WEB_VITALS_BACKEND_AUTH_TOKEN as string | undefined) ?? '',
+  /** Enable GA4 reporter when gtag script is present. */
+  webVitalsGa4Enabled: boolFromEnv(import.meta.env.VITE_WEB_VITALS_GA4_ENABLED as string | undefined),
+  /** Reserved for future GA setup checks and docs. */
+  webVitalsGa4MeasurementId:
+    (import.meta.env.VITE_WEB_VITALS_GA4_MEASUREMENT_ID as string | undefined) ?? '',
 };

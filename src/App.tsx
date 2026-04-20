@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AppBootstrap } from '@/AppBootstrap';
 import { AuthProvider } from '@/auth/AuthProvider';
 import { ErrorBoundary } from '@/components/error/ErrorBoundary';
+import { WebVitalsDebugPanel } from '@/components/performance/WebVitalsDebugPanel';
 import { useDocumentLanguage } from '@/hooks/useDocumentLanguage';
 
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ export default function App() {
         <AuthProvider>
           <ErrorBoundary>
             <AppBootstrap />
+            <WebVitalsDebugPanel />
           </ErrorBoundary>
         </AuthProvider>
       </QueryClientProvider>

@@ -13,6 +13,7 @@ export function AdminSidebar({ open, onClose }: { open: boolean; onClose: () => 
     { to: '/admin/users', label: t('dashboard.users') },
     { to: '/admin/orders', label: t('dashboard.orders') },
     { to: '/admin/products', label: t('dashboard.products') },
+    { to: '/admin/performance', label: 'Performance' },
   ];
 
   return (
