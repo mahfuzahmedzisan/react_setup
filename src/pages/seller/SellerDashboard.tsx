@@ -1,24 +1,28 @@
+import { useTranslation } from 'react-i18next';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function SellerDashboard() {
+  const { t } = useTranslation();
+
   return (
     <DashboardLayout
-      title="Seller"
+      title={t('dashboard.seller')}
       nav={[
-        { label: 'Dashboard', to: '/seller' },
-        { label: 'Inventory', to: '/seller/inventory' },
-        { label: 'Orders', to: '/seller/orders' },
-        { label: 'Payouts', to: '/seller/payouts' },
+        { label: t('common.dashboard'), to: '/seller' },
+        { label: t('dashboard.inventory'), to: '/seller/inventory' },
+        { label: t('dashboard.orders'), to: '/seller/orders' },
+        { label: t('dashboard.payouts'), to: '/seller/payouts' },
       ]}
     >
       <Card>
         <CardHeader>
-          <CardTitle>Seller Dashboard</CardTitle>
-          <CardDescription>Seller-only area</CardDescription>
+          <CardTitle>{t('dashboard.sellerDashboard')}</CardTitle>
+          <CardDescription>{t('dashboard.sellerArea')}</CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Replace this with seller pages (inventory, orders, payouts, etc.).
+          {t('dashboard.sellerStub')}
         </CardContent>
       </Card>
     </DashboardLayout>

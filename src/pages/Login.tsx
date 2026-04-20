@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import {
   extractBearerTokenFromLoginBody,
@@ -41,6 +42,7 @@ export default function Login() {
   const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     const next = searchParams.get('next');
@@ -61,16 +63,12 @@ export default function Login() {
       if (authStrategy === 'http_only_cookie') {
         const u = await refreshSession();
         if (!u) {
-          throw new Error(
-            'No session cookie detected. Your Laravel API returns a Bearer token in JSON, not HttpOnly cookies. Set VITE_AUTH_STRATEGY=bearer_memory in .env and restart the dev server.',
-          );
+          throw new Error(t('auth.noSessionCookie'));
         }
       } else {
         const token = extractBearerTokenFromLoginBody(body);
         if (!token) {
-          throw new Error(
-            'Login response did not include a token. Expected Laravel sendResponse data.token or data.access_token.',
-          );
+          throw new Error(t('auth.noToken'));
         }
         setToken(token);
         const refresh = extractRefreshTokenFromLoginBody(body);
@@ -95,7 +93,8 @@ export default function Login() {
       }
       navigate('/dashboard', { replace: true });
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Login failed. Please try again.';
+      const fallback = t('auth.loginFailed');
+      const message = err instanceof Error ? err.message : fallback;
       setError(message);
     } finally {
       setLoading(false);
@@ -105,38 +104,41 @@ export default function Login() {
   return (
     <>
       <PageMeta
-        title="Sign in"
-        description="Sign in to your account to access the dashboard and protected areas."
-        keywords={['login', 'sign in', 'authentication', 'account']}
+        title={t('meta.loginTitle')}
+        description={t('meta.loginDescription')}
+        keywords={t('meta.loginKeywords')}
       />
       <div className="mx-auto flex min-h-dvh max-w-5xl items-center justify-center px-4 py-12">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Sign in</CardTitle>
+            <CardTitle>{t('common.signIn')}</CardTitle>
             <CardDescription>
-              Auth: <code className="text-xs">{env.authStrategy}</code>
+              {t('auth.authStrategy')}: <code className="text-xs">{env.authStrategy}</code>
               {authStrategy === 'http_only_cookie'
-                ? ' — expects HttpOnly session cookie from the API'
-                : ` — Passport Bearer (${env.bearerTokenPersistence}${env.refreshTokenEnabled ? ', refresh on 401' : ''})`}
+                ? ` - ${t('auth.expectsCookie')}`
+                : ` - ${t('auth.bearerDetails', {
+                    storage: env.bearerTokenPersistence,
+                    refresh: env.refreshTokenEnabled ? t('auth.refreshSuffix') : '',
+                  })}`}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form className="space-y-4" onSubmit={onSubmit}>
               <div className="space-y-2">
                 <label className="text-sm font-medium" htmlFor="email">
-                  Email
+                  {t('auth.email')}
                 </label>
                 <Input
                   id="email"
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder={t('auth.emailPlaceholder')}
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium" htmlFor="password">
-                  Password
+                  {t('auth.password')}
                 </label>
                 <Input
                   id="password"
@@ -144,7 +146,7 @@ export default function Login() {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder={t('auth.passwordPlaceholder')}
                 />
               </div>
               {error ? (
@@ -153,7 +155,7 @@ export default function Login() {
                 </div>
               ) : null}
               <Button className="w-full" disabled={loading} type="submit">
-                {loading ? 'Signing in…' : 'Sign in'}
+                {loading ? t('auth.signingIn') : t('common.signIn')}
               </Button>
             </form>
           </CardContent>

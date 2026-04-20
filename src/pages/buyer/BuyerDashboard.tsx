@@ -1,23 +1,27 @@
+import { useTranslation } from 'react-i18next';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function BuyerDashboard() {
+  const { t } = useTranslation();
+
   return (
     <DashboardLayout
-      title="Buyer"
+      title={t('dashboard.buyer')}
       nav={[
-        { label: 'Dashboard', to: '/buyer' },
-        { label: 'Account', to: '/account' },
-        { label: 'Cart', to: '/cart' },
+        { label: t('common.dashboard'), to: '/buyer' },
+        { label: t('common.account'), to: '/account' },
+        { label: t('common.cart'), to: '/cart' },
       ]}
     >
       <Card>
         <CardHeader>
-          <CardTitle>Buyer Dashboard</CardTitle>
-          <CardDescription>Buyer-only area</CardDescription>
+          <CardTitle>{t('dashboard.buyerDashboard')}</CardTitle>
+          <CardDescription>{t('dashboard.buyerArea')}</CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Replace this with buyer pages (wishlists, orders, addresses, etc.).
+          {t('dashboard.buyerStub')}
         </CardContent>
       </Card>
     </DashboardLayout>

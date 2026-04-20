@@ -1,0 +1,54 @@
+{
+  "common": {
+    "home": "होम",
+    "cart": "कार्ट",
+    "account": "खाता",
+    "signIn": "साइन इन",
+    "logout": "लॉगआउट",
+    "search": "खोजें...",
+    "loading": "लोड हो रहा है...",
+    "dark": "डार्क",
+    "light": "लाइट",
+    "system": "सिस्टम",
+    "close": "बंद करें",
+    "menu": "मेनू",
+    "dashboard": "डैशबोर्ड",
+    "language": "भाषा",
+    "sidebar": "साइडबार",
+    "mobileSidebarDescription": "मोबाइल साइडबार दिखाता है।",
+    "toggleSidebar": "साइडबार टॉगल करें",
+    "more": "और"
+  },
+  "meta": {
+    "homeTitle": "होम",
+    "loginTitle": "साइन इन",
+    "unauthorizedTitle": "अनधिकृत",
+    "accountTitle": "खाता",
+    "cartTitle": "कार्ट",
+    "notFoundTitle": "पेज नहीं मिला",
+    "adminTitle": "एडमिन",
+    "homeKeywords": "शॉप, उत्पाद, होम, ई-कॉमर्स",
+    "loginKeywords": "लॉगिन, साइन इन, प्रमाणीकरण, खाता",
+    "unauthorizedKeywords": "अनधिकृत, 403, एक्सेस अस्वीकृत, अनुमतियाँ",
+    "accountKeywords": "खाता, प्रोफाइल, सेटिंग्स, उपयोगकर्ता",
+    "cartKeywords": "कार्ट, चेकआउट, खरीदारी",
+    "notFoundKeywords": "404, नहीं मिला, त्रुटि",
+    "adminKeywords": "एडमिन, डैशबोर्ड, प्रबंधन",
+    "usersKeywords": "एडमिन, उपयोगकर्ता, प्रबंधन",
+    "ordersKeywords": "एडमिन, ऑर्डर, प्रबंधन",
+    "productsKeywords": "एडमिन, उत्पाद, कैटलॉग",
+    "userDashboardKeywords": "डैशबोर्ड, उपयोगकर्ता, अवलोकन"
+  },
+  "auth": {
+    "signingIn": "साइन इन हो रहा है...",
+    "loginFailed": "साइन इन विफल।"
+  },
+  "errors": {
+    "pageNotFound": "पेज नहीं मिला",
+    "reloadPage": "पेज रीलोड करें"
+  },
+  "admin": {
+    "admin": "एडमिन",
+    "adminArea": "एडमिन क्षेत्र"
+  }
+}

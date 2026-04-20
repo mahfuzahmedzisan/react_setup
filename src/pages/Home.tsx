@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Badge } from '@/components/ui/badge';
@@ -9,13 +10,20 @@ import { useFeaturedProducts } from '@/features/products/useFeaturedProducts';
 
 export default function Home() {
   const { data: products = [] } = useFeaturedProducts();
+  const { t } = useTranslation();
+  const categories = [
+    t('home.men'),
+    t('home.women'),
+    t('home.accessories'),
+    t('home.homeCategory'),
+  ];
 
   return (
     <>
       <PageMeta
-        title="Home"
-        description="Browse featured products and shop with React, Vite, and Laravel."
-        keywords={['shop', 'products', 'home', 'e-commerce']}
+        title={t('meta.homeTitle')}
+        description={t('meta.homeDescription')}
+        keywords={t('meta.homeKeywords')}
       />
       <div className="min-h-dvh bg-background">
         <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -24,27 +32,27 @@ export default function Home() {
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <ShoppingBag className="h-4 w-4" />
               </span>
-              <span>React + Vite + Laravelss</span>
+              <span>{t('common.appName')}</span>
             </Link>
 
             <nav className="hidden items-center gap-6 text-sm md:flex">
               <a className="text-muted-foreground hover:text-foreground" href="#categories">
-                Categories
+                {t('home.categories')}
               </a>
               <a className="text-muted-foreground hover:text-foreground" href="#featured">
-                Featured
+                {t('home.featured')}
               </a>
               <Link className="text-muted-foreground hover:text-foreground" to="/account">
-                Account
+                {t('common.account')}
               </Link>
             </nav>
 
             <div className="flex items-center gap-2">
               <Button variant="ghost" asChild type="button">
-                <Link to="/cart">Cart</Link>
+                <Link to="/cart">{t('common.cart')}</Link>
               </Button>
               <Button asChild type="button">
-                <Link to="/login">Sign in</Link>
+                <Link to="/login">{t('common.signIn')}</Link>
               </Button>
             </div>
           </div>
@@ -56,38 +64,37 @@ export default function Home() {
             <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-2 md:items-center md:py-20">
               <div className="space-y-6">
                 <div className="flex items-center gap-2">
-                  <Badge variant="secondary">New season</Badge>
+                  <Badge variant="secondary">{t('home.newSeason')}</Badge>
                   <span className="text-sm text-muted-foreground">
-                    Fast delivery • Easy returns • Secure checkout
+                    {t('home.heroBenefits')}
                   </span>
                 </div>
                 <h1 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">
-                  Everything you need for a modern lifestyle.
+                  {t('home.heroTitle')}
                 </h1>
                 <p className="max-w-prose text-pretty text-muted-foreground">
-                  Discover curated essentials, trending picks, and deals that feel too good to be
-                  true. Built for speed, designed for trust.
+                  {t('home.heroDescription')}
                 </p>
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Button type="button" className="gap-2">
-                    Shop featured <ArrowRight className="h-4 w-4" />
+                    {t('home.shopFeatured')} <ArrowRight className="h-4 w-4" />
                   </Button>
                   <Button type="button" variant="outline">
-                    Browse categories
+                    {t('home.browseCategories')}
                   </Button>
                 </div>
                 <div className="grid grid-cols-3 gap-4 pt-2 text-sm">
                   <div className="rounded-lg border bg-card p-3">
                     <div className="text-lg font-semibold">24h</div>
-                    <div className="text-muted-foreground">Dispatch</div>
+                    <div className="text-muted-foreground">{t('home.dispatch')}</div>
                   </div>
                   <div className="rounded-lg border bg-card p-3">
                     <div className="text-lg font-semibold">7d</div>
-                    <div className="text-muted-foreground">Returns</div>
+                    <div className="text-muted-foreground">{t('home.returns')}</div>
                   </div>
                   <div className="rounded-lg border bg-card p-3">
                     <div className="text-lg font-semibold">100%</div>
-                    <div className="text-muted-foreground">Secure</div>
+                    <div className="text-muted-foreground">{t('home.secure')}</div>
                   </div>
                 </div>
               </div>
@@ -98,7 +105,7 @@ export default function Home() {
                     <CardHeader className="space-y-2">
                       <CardTitle className="text-base">{p.name}</CardTitle>
                       <p className="text-sm text-muted-foreground">
-                        {p.subtitle ?? 'Limited stock available'}
+                        {p.subtitle ?? t('home.limitedStock')}
                       </p>
                     </CardHeader>
                     <CardContent>
@@ -107,7 +114,7 @@ export default function Home() {
                     <CardFooter className="justify-between">
                       <span className="text-sm font-semibold">${p.price.amount}</span>
                       <Button size="sm" variant="secondary" type="button">
-                        Add
+                        {t('home.add')}
                       </Button>
                     </CardFooter>
                   </Card>
@@ -119,16 +126,16 @@ export default function Home() {
           <section id="categories" className="mx-auto max-w-6xl px-4 py-14">
             <div className="mb-6 flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-semibold tracking-tight">Shop by category</h2>
-                <p className="text-sm text-muted-foreground">Find what you love, faster.</p>
+                <h2 className="text-2xl font-semibold tracking-tight">{t('home.shopByCategory')}</h2>
+                <p className="text-sm text-muted-foreground">{t('home.findFaster')}</p>
               </div>
               <Button variant="ghost" type="button">
-                View all
+                {t('home.viewAll')}
               </Button>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {['Men', 'Women', 'Accessories', 'Home'].map((c) => (
+              {categories.map((c) => (
                 <a
                   key={c}
                   href="#featured"
@@ -137,7 +144,7 @@ export default function Home() {
                   <div className="mb-4 h-10 w-10 rounded-lg bg-[hsla(var(--primary)/0.12)]" />
                   <div className="font-semibold">{c}</div>
                   <div className="text-sm text-muted-foreground group-hover:text-foreground/80">
-                    Explore →
+                    {t('home.explore')} →
                   </div>
                 </a>
               ))}
@@ -146,8 +153,8 @@ export default function Home() {
 
           <section id="featured" className="mx-auto max-w-6xl px-4 pb-16">
             <div className="mb-6">
-              <h2 className="text-2xl font-semibold tracking-tight">Featured products</h2>
-              <p className="text-sm text-muted-foreground">Popular right now. Updated daily.</p>
+              <h2 className="text-2xl font-semibold tracking-tight">{t('home.featuredProducts')}</h2>
+              <p className="text-sm text-muted-foreground">{t('home.popularNow')}</p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -159,7 +166,7 @@ export default function Home() {
                       <div>
                         <div className="font-semibold">{p.name}</div>
                         <div className="text-sm text-muted-foreground">
-                          {p.subtitle ?? 'Best seller'}
+                          {p.subtitle ?? t('home.bestSeller')}
                         </div>
                       </div>
                       {p.badge ? <Badge>{p.badge}</Badge> : null}
@@ -168,7 +175,7 @@ export default function Home() {
                   <CardFooter className="justify-between">
                     <span className="text-sm font-semibold">${p.price.amount}</span>
                     <Button size="sm" type="button">
-                      Add to cart
+                      {t('home.addToCart')}
                     </Button>
                   </CardFooter>
                 </Card>
@@ -179,16 +186,18 @@ export default function Home() {
 
         <footer className="border-t">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-10 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-            <div>© {new Date().getFullYear()} React + Vite + Laravel. All rights reserved.</div>
+            <div>
+              © {new Date().getFullYear()} {t('common.appName')}. {t('home.rightsReserved')}
+            </div>
             <div className="flex gap-4">
               <a className="hover:text-foreground" href="#">
-                Privacy
+                {t('home.privacy')}
               </a>
               <a className="hover:text-foreground" href="#">
-                Terms
+                {t('home.terms')}
               </a>
               <a className="hover:text-foreground" href="#">
-                Support
+                {t('home.support')}
               </a>
             </div>
           </div>

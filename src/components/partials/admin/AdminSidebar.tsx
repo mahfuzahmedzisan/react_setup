@@ -1,18 +1,19 @@
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/lib/utils';
 import { isActivePath } from '@/lib/nav.utils';
 import { useActiveUrl } from '@/hooks/useActiveUrl';
 
-const items = [
-  { to: '/admin', label: 'Dashboard', end: true },
-  { to: '/admin/users', label: 'Users' },
-  { to: '/admin/orders', label: 'Orders' },
-  { to: '/admin/products', label: 'Products' },
-];
-
 export function AdminSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { pathname } = useActiveUrl();
+  const { t } = useTranslation();
+  const items = [
+    { to: '/admin', label: t('common.dashboard'), end: true },
+    { to: '/admin/users', label: t('dashboard.users') },
+    { to: '/admin/orders', label: t('dashboard.orders') },
+    { to: '/admin/products', label: t('dashboard.products') },
+  ];
 
   return (
     <aside className="relative">
@@ -33,9 +34,9 @@ export function AdminSidebar({ open, onClose }: { open: boolean; onClose: () => 
         )}
       >
         <div className="mb-3 flex items-center justify-between md:hidden">
-          <div className="text-sm font-medium">Admin</div>
+          <div className="text-sm font-medium">{t('admin.admin')}</div>
           <button className="text-sm text-muted-foreground" onClick={onClose} type="button">
-            Close
+            {t('common.close')}
           </button>
         </div>
 

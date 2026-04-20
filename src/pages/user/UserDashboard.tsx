@@ -1,30 +1,34 @@
+import { useTranslation } from 'react-i18next';
+
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function UserDashboard() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Dashboard"
-        description="Your personal dashboard: overview, account shortcuts, and cart."
-        keywords={['dashboard', 'user', 'overview']}
+        title={t('common.dashboard')}
+        description={t('dashboard.userArea')}
+        keywords={t('meta.userDashboardKeywords')}
       />
       <DashboardLayout
-        title="Dashboard"
+        title={t('common.dashboard')}
         nav={[
-          { label: 'Overview', to: '/dashboard' },
-          { label: 'Account', to: '/account' },
-          { label: 'Cart', to: '/cart' },
+          { label: t('dashboard.overview'), to: '/dashboard' },
+          { label: t('common.account'), to: '/account' },
+          { label: t('common.cart'), to: '/cart' },
         ]}
       >
         <Card>
           <CardHeader>
-            <CardTitle>User Dashboard</CardTitle>
-            <CardDescription>Your personal area</CardDescription>
+            <CardTitle>{t('dashboard.userDashboard')}</CardTitle>
+            <CardDescription>{t('dashboard.userArea')}</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">
-            Replace this with user pages (profile, addresses, orders, etc.).
+            {t('dashboard.userStub')}
           </CardContent>
         </Card>
       </DashboardLayout>

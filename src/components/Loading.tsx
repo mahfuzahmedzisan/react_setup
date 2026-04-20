@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 
 interface LoadingProps {
   /** Optional message shown below the spinner */
@@ -6,6 +7,9 @@ interface LoadingProps {
 }
 
 export default function Loading({ message = 'Loading...' }: LoadingProps) {
+  const { t } = useTranslation();
+  const resolvedMessage = message === 'Loading...' ? t('common.loading') : message;
+
   return (
     <div className="relative flex w-full items-center justify-center overflow-hidden bg-background py-24">
       {/* Background glow — matches NotFound */}
@@ -23,7 +27,7 @@ export default function Loading({ message = 'Loading...' }: LoadingProps) {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="text-[10rem] leading-none font-black tracking-tighter text-foreground/5 select-none md:text-[16rem]"
           >
-            NOW
+            {t('common.appName')}
           </motion.h1>
 
           {/* Spinner + icon overlay */}
@@ -68,7 +72,7 @@ export default function Loading({ message = 'Loading...' }: LoadingProps) {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="flex flex-col items-center gap-2 text-center"
         >
-          <p className="text-base font-semibold tracking-wide text-foreground">{message}</p>
+          <p className="text-base font-semibold tracking-wide text-foreground">{resolvedMessage}</p>
 
           {/* Animated dots */}
           <div className="flex items-center gap-1.5">

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -14,14 +16,19 @@ export function DashboardLayout({
   nav: NavItem[];
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-dvh bg-background">
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="font-semibold tracking-tight">{title}</div>
-          <Button asChild variant="outline" type="button">
-            <Link to="/">Home</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <Button asChild variant="outline" type="button">
+              <Link to="/">{t('common.home')}</Link>
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -47,7 +54,7 @@ export function DashboardLayout({
 
       <footer className="border-t">
         <div className="mx-auto max-w-6xl px-4 py-6 text-xs text-muted-foreground">
-          Dashboard template • Role-based routes
+          {t('dashboard.templateFooter')}
         </div>
       </footer>
     </div>

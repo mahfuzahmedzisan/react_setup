@@ -1,0 +1,54 @@
+{
+  "common": {
+    "home": "হোম",
+    "cart": "কার্ট",
+    "account": "অ্যাকাউন্ট",
+    "signIn": "সাইন ইন",
+    "logout": "লগআউট",
+    "search": "খুঁজুন...",
+    "loading": "লোড হচ্ছে...",
+    "dark": "ডার্ক",
+    "light": "লাইট",
+    "system": "সিস্টেম",
+    "close": "বন্ধ করুন",
+    "menu": "মেনু",
+    "dashboard": "ড্যাশবোর্ড",
+    "language": "ভাষা",
+    "sidebar": "সাইডবার",
+    "mobileSidebarDescription": "মোবাইল সাইডবার দেখায়।",
+    "toggleSidebar": "সাইডবার টগল করুন",
+    "more": "আরও"
+  },
+  "meta": {
+    "homeTitle": "হোম",
+    "loginTitle": "সাইন ইন",
+    "unauthorizedTitle": "অননুমোদিত",
+    "accountTitle": "অ্যাকাউন্ট",
+    "cartTitle": "কার্ট",
+    "notFoundTitle": "পৃষ্ঠা পাওয়া যায়নি",
+    "adminTitle": "অ্যাডমিন",
+    "homeKeywords": "শপ, পণ্য, হোম, ই-কমার্স",
+    "loginKeywords": "লগইন, সাইন ইন, অথেনটিকেশন, অ্যাকাউন্ট",
+    "unauthorizedKeywords": "অননুমোদিত, 403, অ্যাক্সেস নিষিদ্ধ, অনুমতি",
+    "accountKeywords": "অ্যাকাউন্ট, প্রোফাইল, সেটিংস, ব্যবহারকারী",
+    "cartKeywords": "কার্ট, চেকআউট, কেনাকাটা",
+    "notFoundKeywords": "404, পাওয়া যায়নি, ত্রুটি",
+    "adminKeywords": "অ্যাডমিন, ড্যাশবোর্ড, ম্যানেজমেন্ট",
+    "usersKeywords": "অ্যাডমিন, ব্যবহারকারী, ম্যানেজমেন্ট",
+    "ordersKeywords": "অ্যাডমিন, অর্ডার, ম্যানেজমেন্ট",
+    "productsKeywords": "অ্যাডমিন, পণ্য, ক্যাটালগ",
+    "userDashboardKeywords": "ড্যাশবোর্ড, ব্যবহারকারী, ওভারভিউ"
+  },
+  "auth": {
+    "signingIn": "সাইন ইন হচ্ছে...",
+    "loginFailed": "সাইন ইন ব্যর্থ হয়েছে।"
+  },
+  "errors": {
+    "pageNotFound": "পৃষ্ঠা পাওয়া যায়নি",
+    "reloadPage": "রিলোড করুন"
+  },
+  "admin": {
+    "admin": "অ্যাডমিন",
+    "adminArea": "অ্যাডমিন এলাকা"
+  }
+}

@@ -1,29 +1,32 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Unauthorized() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Unauthorized"
-        description="You do not have permission to access this page. Sign in or use an account with the right role."
-        keywords={['unauthorized', '403', 'access denied', 'permissions']}
+        title={t('meta.unauthorizedTitle')}
+        description={t('meta.unauthorizedDescription')}
+        keywords={t('meta.unauthorizedKeywords')}
       />
       <div className="mx-auto flex min-h-dvh max-w-3xl items-center justify-center px-4 py-12">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Unauthorized</CardTitle>
-            <CardDescription>You don’t have permission to access this page.</CardDescription>
+            <CardTitle>{t('errors.unauthorized')}</CardTitle>
+            <CardDescription>{t('errors.unauthorizedBody')}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             <Button asChild type="button">
-              <Link to="/">Go home</Link>
+              <Link to="/">{t('errors.goHome')}</Link>
             </Button>
             <Button asChild variant="outline" type="button">
-              <Link to="/login">Sign in</Link>
+              <Link to="/login">{t('common.signIn')}</Link>
             </Button>
           </CardContent>
         </Card>

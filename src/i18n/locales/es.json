@@ -1,0 +1,59 @@
+{
+  "common": {
+    "home": "Inicio",
+    "cart": "Carrito",
+    "account": "Cuenta",
+    "signIn": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "search": "Buscar...",
+    "loading": "Cargando...",
+    "dark": "Oscuro",
+    "light": "Claro",
+    "system": "Sistema",
+    "close": "Cerrar",
+    "menu": "Menú",
+    "dashboard": "Panel",
+    "language": "Idioma",
+    "sidebar": "Barra lateral",
+    "mobileSidebarDescription": "Muestra la barra lateral móvil.",
+    "toggleSidebar": "Alternar barra lateral",
+    "more": "Más"
+  },
+  "meta": {
+    "homeTitle": "Inicio",
+    "loginTitle": "Iniciar sesión",
+    "unauthorizedTitle": "No autorizado",
+    "accountTitle": "Cuenta",
+    "cartTitle": "Carrito",
+    "notFoundTitle": "Página no encontrada",
+    "adminTitle": "Administración",
+    "homeKeywords": "tienda, productos, inicio, comercio electrónico",
+    "loginKeywords": "login, iniciar sesión, autenticación, cuenta",
+    "unauthorizedKeywords": "no autorizado, 403, acceso denegado, permisos",
+    "accountKeywords": "cuenta, perfil, configuración, usuario",
+    "cartKeywords": "carrito, pago, compras",
+    "notFoundKeywords": "404, no encontrado, error",
+    "adminKeywords": "admin, panel, gestión",
+    "usersKeywords": "admin, usuarios, gestión",
+    "ordersKeywords": "admin, pedidos, gestión",
+    "productsKeywords": "admin, productos, catálogo",
+    "userDashboardKeywords": "panel, usuario, resumen"
+  },
+  "auth": {
+    "signingIn": "Iniciando sesión...",
+    "loginFailed": "Error de inicio de sesión."
+  },
+  "errors": {
+    "pageNotFound": "Página no encontrada",
+    "reloadPage": "Recargar página"
+  },
+  "dashboard": {
+    "users": "Usuarios",
+    "orders": "Pedidos",
+    "products": "Productos"
+  },
+  "admin": {
+    "admin": "Administración",
+    "adminArea": "Área de administración"
+  }
+}

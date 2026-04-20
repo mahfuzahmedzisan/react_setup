@@ -1,23 +1,27 @@
+import { useTranslation } from 'react-i18next';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function VendorDashboard() {
+  const { t } = useTranslation();
+
   return (
     <DashboardLayout
-      title="Vendor"
+      title={t('dashboard.vendor')}
       nav={[
-        { label: 'Dashboard', to: '/vendor' },
-        { label: 'Account', to: '/account' },
-        { label: 'Orders', to: '/vendor/orders' },
+        { label: t('common.dashboard'), to: '/vendor' },
+        { label: t('common.account'), to: '/account' },
+        { label: t('dashboard.orders'), to: '/vendor/orders' },
       ]}
     >
       <Card>
         <CardHeader>
-          <CardTitle>Vendor Dashboard</CardTitle>
-          <CardDescription>Vendor-only area</CardDescription>
+          <CardTitle>{t('dashboard.vendorDashboard')}</CardTitle>
+          <CardDescription>{t('dashboard.vendorArea')}</CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Replace this with vendor pages (stores, listings, fulfillment, etc.).
+          {t('dashboard.vendorStub')}
         </CardContent>
       </Card>
     </DashboardLayout>

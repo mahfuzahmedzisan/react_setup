@@ -1,16 +1,19 @@
 import { type FallbackProps } from 'react-error-boundary';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl items-center justify-center px-4 py-12">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Something went wrong</CardTitle>
+          <CardTitle>{t('errors.somethingWentWrong')}</CardTitle>
           <CardDescription>
-            An unexpected error occurred. Try again, or refresh the page.
+            {t('errors.unexpectedError')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -19,10 +22,10 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           </pre>
           <div className="flex flex-wrap gap-2">
             <Button type="button" onClick={resetErrorBoundary}>
-              Try again
+              {t('errors.reloadPage')}
             </Button>
             <Button type="button" variant="outline" onClick={() => window.location.reload()}>
-              Refresh
+              {t('errors.reloadPage')}
             </Button>
           </div>
         </CardContent>

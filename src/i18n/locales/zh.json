@@ -1,0 +1,59 @@
+{
+  "common": {
+    "home": "首页",
+    "cart": "购物车",
+    "account": "账户",
+    "signIn": "登录",
+    "logout": "退出登录",
+    "search": "搜索...",
+    "loading": "加载中...",
+    "dark": "深色",
+    "light": "浅色",
+    "system": "系统",
+    "close": "关闭",
+    "menu": "菜单",
+    "dashboard": "仪表盘",
+    "language": "语言",
+    "sidebar": "侧边栏",
+    "mobileSidebarDescription": "显示移动端侧边栏。",
+    "toggleSidebar": "切换侧边栏",
+    "more": "更多"
+  },
+  "meta": {
+    "homeTitle": "首页",
+    "loginTitle": "登录",
+    "unauthorizedTitle": "未授权",
+    "accountTitle": "账户",
+    "cartTitle": "购物车",
+    "notFoundTitle": "页面未找到",
+    "adminTitle": "管理",
+    "homeKeywords": "商店, 产品, 首页, 电商",
+    "loginKeywords": "登录, 身份验证, 账户",
+    "unauthorizedKeywords": "未授权, 403, 拒绝访问, 权限",
+    "accountKeywords": "账户, 个人资料, 设置, 用户",
+    "cartKeywords": "购物车, 结账, 购物",
+    "notFoundKeywords": "404, 未找到, 错误",
+    "adminKeywords": "管理, 仪表盘, 管理后台",
+    "usersKeywords": "管理, 用户, 管理",
+    "ordersKeywords": "管理, 订单, 管理",
+    "productsKeywords": "管理, 产品, 目录",
+    "userDashboardKeywords": "仪表盘, 用户, 概览"
+  },
+  "auth": {
+    "signingIn": "登录中...",
+    "loginFailed": "登录失败，请重试。"
+  },
+  "errors": {
+    "pageNotFound": "页面未找到",
+    "reloadPage": "重新加载页面"
+  },
+  "dashboard": {
+    "users": "用户",
+    "orders": "订单",
+    "products": "产品"
+  },
+  "admin": {
+    "admin": "管理",
+    "adminArea": "管理区域"
+  }
+}

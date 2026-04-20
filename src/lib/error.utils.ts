@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger';
+import i18n from '@/i18n';
 
 export type NormalizedError = {
   name: string;
@@ -21,7 +22,7 @@ export function normalizeError(error: unknown): NormalizedError {
   }
   return {
     name: 'UnknownError',
-    message: 'An unknown error occurred.',
+    message: i18n.t('errors.unknownError'),
     cause: error,
   };
 }

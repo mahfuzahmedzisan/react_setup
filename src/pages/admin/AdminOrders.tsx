@@ -1,30 +1,34 @@
+import { useTranslation } from 'react-i18next';
+
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function AdminOrders() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Admin — Orders"
-        description="View and manage customer orders from the admin panel."
-        keywords={['admin', 'orders', 'management']}
+        title={`${t('admin.admin')} - ${t('dashboard.orders')}`}
+        description={t('meta.adminDescription')}
+        keywords={t('meta.ordersKeywords')}
       />
       <DashboardLayout
-        title="Admin"
+        title={t('admin.admin')}
         nav={[
-          { label: 'Dashboard', to: '/admin' },
-          { label: 'Users', to: '/admin/users' },
-          { label: 'Orders', to: '/admin/orders' },
-          { label: 'Products', to: '/admin/products' },
+          { label: t('common.dashboard'), to: '/admin' },
+          { label: t('dashboard.users'), to: '/admin/users' },
+          { label: t('dashboard.orders'), to: '/admin/orders' },
+          { label: t('dashboard.products'), to: '/admin/products' },
         ]}
       >
         <Card>
           <CardHeader>
-            <CardTitle>Orders</CardTitle>
+            <CardTitle>{t('dashboard.orders')}</CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">
-            Admin orders page stub.
+            {t('admin.ordersStub')}
           </CardContent>
         </Card>
       </DashboardLayout>

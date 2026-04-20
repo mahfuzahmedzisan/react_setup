@@ -1,4 +1,5 @@
 import { type FallbackProps } from 'react-error-boundary';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,7 @@ import { getErrorMessage, getErrorStack } from '@/lib/error.utils';
 import { isDebugLike } from '@/lib/env';
 
 export function ErrorFallback({ error }: FallbackProps) {
+  const { t } = useTranslation();
   const message = getErrorMessage(error);
   const stack = getErrorStack(error);
 
@@ -18,9 +20,9 @@ export function ErrorFallback({ error }: FallbackProps) {
     >
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Something went wrong</CardTitle>
+          <CardTitle>{t('errors.somethingWentWrong')}</CardTitle>
           <CardDescription>
-            We hit an unexpected error. You can reload the app or go back home.
+            {t('errors.unexpectedError')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -36,10 +38,10 @@ export function ErrorFallback({ error }: FallbackProps) {
           ) : null}
           <div className="flex flex-wrap gap-2">
             <Button type="button" onClick={() => window.location.reload()}>
-              Reload Page
+              {t('errors.reloadPage')}
             </Button>
             <Button asChild variant="outline" type="button">
-              <Link to="/">Go Home</Link>
+              <Link to="/">{t('errors.goHome')}</Link>
             </Button>
           </div>
         </CardContent>

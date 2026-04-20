@@ -1,18 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { MoveLeft, Home } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <>
       <PageMeta
-        title="Page not found"
-        description="The page you are looking for does not exist or has been moved."
-        keywords={['404', 'not found', 'error']}
+        title={t('meta.notFoundTitle')}
+        description={t('meta.notFoundDescription')}
+        keywords={t('meta.notFoundKeywords')}
       />
       <div className="relative flex min-h-dvh w-full items-center justify-center overflow-hidden bg-background">
         {/* Background Decorative Glow */}
@@ -37,11 +39,10 @@ export default function NotFound() {
                 className="text-center"
               >
                 <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-                  Lost in space?
+                  {t('errors.lostInSpace')}
                 </h2>
                 <p className="mx-auto mt-4 max-w-[400px] text-lg text-muted-foreground">
-                  The page you're looking for has vanished into the digital void. Let's get you back
-                  on track.
+                  {t('errors.notFoundBody')}
                 </p>
               </motion.div>
             </div>
@@ -61,7 +62,7 @@ export default function NotFound() {
               className="group h-14 rounded-full border-border/50 px-8 text-base font-semibold hover:bg-muted"
             >
               <MoveLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              Go Back
+              {t('errors.goBack')}
             </Button>
 
             <Button
@@ -71,7 +72,7 @@ export default function NotFound() {
             >
               <Link to="/">
                 <Home className="mr-2 h-4 w-4" />
-                Return Home
+                {t('errors.returnHome')}
               </Link>
             </Button>
           </motion.div>

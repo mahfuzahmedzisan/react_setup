@@ -1,6 +1,8 @@
 import { Link, NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/auth/useAuth';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { useAppearance } from '@/hooks/useAppearance';
 import { cn } from '@/lib/utils';
@@ -8,12 +10,13 @@ import { cn } from '@/lib/utils';
 export function FrontendHeader() {
   const { isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useAppearance();
+  const { t } = useTranslation();
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="font-semibold tracking-tight">
-          React + Vite + Laravel
+          {t('common.appName')}
         </Link>
 
         <nav className="hidden items-center gap-5 text-sm md:flex">
@@ -24,7 +27,7 @@ export function FrontendHeader() {
             }
             end
           >
-            Home
+            {t('common.home')}
           </NavLink>
           <NavLink
             to="/cart"
@@ -32,13 +35,14 @@ export function FrontendHeader() {
               cn('text-muted-foreground hover:text-foreground', isActive && 'text-foreground')
             }
           >
-            Cart
+            {t('common.cart')}
           </NavLink>
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <Button type="button" variant="outline" onClick={() => toggleTheme()}>
-            {theme === 'light' ? 'Dark' : 'Light'}
+            {theme === 'light' ? t('common.dark') : t('common.light')}
           </Button>
           {isAuthenticated ? (
             <Button
@@ -48,11 +52,11 @@ export function FrontendHeader() {
                 void logout();
               }}
             >
-              Logout
+              {t('common.logout')}
             </Button>
           ) : (
             <Button asChild type="button">
-              <Link to="/login">Sign in</Link>
+              <Link to="/login">{t('common.signIn')}</Link>
             </Button>
           )}
         </div>

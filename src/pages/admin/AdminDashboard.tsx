@@ -1,31 +1,35 @@
+import { useTranslation } from 'react-i18next';
+
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 
 export default function AdminDashboard() {
+  const { t } = useTranslation();
+
   return (
     <>
       <PageMeta
-        title="Admin"
-        description="Administrator dashboard for managing users, orders, and products."
-        keywords={['admin', 'dashboard', 'management']}
+        title={t('meta.adminTitle')}
+        description={t('meta.adminDescription')}
+        keywords={t('meta.adminKeywords')}
       />
       <DashboardLayout
-        title="Admin"
+        title={t('admin.admin')}
         nav={[
-          { label: 'Dashboard', to: '/admin' },
-          { label: 'Users', to: '/admin/users' },
-          { label: 'Orders', to: '/admin/orders' },
-          { label: 'Products', to: '/admin/products' },
+          { label: t('common.dashboard'), to: '/admin' },
+          { label: t('dashboard.users'), to: '/admin/users' },
+          { label: t('dashboard.orders'), to: '/admin/orders' },
+          { label: t('dashboard.products'), to: '/admin/products' },
         ]}
       >
         <Card>
           <CardHeader>
-            <CardTitle>Admin Dashboard</CardTitle>
-            <CardDescription>Admin-only area</CardDescription>
+            <CardTitle>{t('admin.adminDashboard')}</CardTitle>
+            <CardDescription>{t('admin.adminOnly')}</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">
-            Replace this with your admin pages (users, orders, products, etc.).
+            {t('admin.adminStub')}
           </CardContent>
         </Card>
       </DashboardLayout>

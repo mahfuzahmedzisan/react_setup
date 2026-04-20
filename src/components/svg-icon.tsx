@@ -20,13 +20,20 @@ export function SvgIcon({
   className = '',
   ariaLabel: ariaLabel,
 }: SvgIconProps) {
-  const [svgContent, setSvgContent] = useState<string | null>(null);
-  const [error, setError] = useState(false);
+  const [state, setState] = useState<{
+    svgContent: string | null;
+    error: boolean;
+    loadedSrc: string;
+  }>({
+    svgContent: null,
+    error: false,
+    loadedSrc: '',
+  });
 
   useEffect(() => {
     if (!src) return;
-    setSvgContent(null);
-    setError(false);
+
+    let cancelled = false;
 
     fetch(src)
       .then((res) => {
@@ -39,14 +46,25 @@ export function SvgIcon({
           .replace(/<\?xml[^?]*\?>/gi, '')
           .replace(/<!DOCTYPE[^>]*>/gi, '')
           .trim();
-        setSvgContent(clean);
+        if (!cancelled) {
+          setState({ svgContent: clean, error: false, loadedSrc: src });
+        }
       })
-      .catch(() => setError(true));
+      .catch(() => {
+        if (!cancelled) {
+          setState({ svgContent: null, error: true, loadedSrc: src });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [src]);
 
   const sizeValue = typeof size === 'number' ? `${size}px` : size;
+  const isCurrentSrcLoaded = state.loadedSrc === src;
 
-  if (error) {
+  if (isCurrentSrcLoaded && state.error) {
     return (
       <span
         title={`Could not load SVG: ${src}`}
@@ -56,7 +74,7 @@ export function SvgIcon({
     );
   }
 
-  if (!svgContent) {
+  if (!isCurrentSrcLoaded || !state.svgContent) {
     return (
       <span
         style={{ width: sizeValue, height: sizeValue, display: 'inline-block' }}
@@ -66,7 +84,7 @@ export function SvgIcon({
   }
 
   // Inject width, height, and currentColor into the raw SVG string
-  const injected = svgContent
+  const injected = state.svgContent
     // Set dimensions
     .replace(/<svg/, `<svg width="${sizeValue}" height="${sizeValue}"`)
     // Remove any hardcoded width/height attrs that were already there (simple approach)

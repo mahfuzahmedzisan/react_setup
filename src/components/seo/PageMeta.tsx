@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-
-export const SITE_NAME = import.meta.env.VITE_SITE_NAME ?? 'React + Vite + Laravel';
+import { useTranslation } from 'react-i18next';
 
 export type PageMetaProps = {
   title: string;
@@ -19,8 +18,10 @@ function formatKeywords(keywords: string | string[] | undefined): string | undef
 }
 
 export function PageMeta({ title, description, keywords }: PageMetaProps) {
+  const { t } = useTranslation();
+  const siteName = import.meta.env.VITE_SITE_NAME ?? t('common.appName');
   const trimmedTitle = title.trim();
-  const documentTitle = trimmedTitle ? `${trimmedTitle} | ${SITE_NAME}` : SITE_NAME;
+  const documentTitle = trimmedTitle ? `${trimmedTitle} | ${siteName}` : siteName;
   const keywordsContent = formatKeywords(keywords);
 
   return (
