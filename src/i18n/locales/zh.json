@@ -17,7 +17,27 @@
     "sidebar": "侧边栏",
     "mobileSidebarDescription": "显示移动端侧边栏。",
     "toggleSidebar": "切换侧边栏",
-    "more": "更多"
+    "more": "更多",
+    "demoFeed": "Feed (demo)",
+    "demoCatalog": "Catalog (demo)",
+    "demoReels": "Reels (demo)"
+  },
+  "demo": {
+    "loadingMore": "Loading more…",
+    "initialError": "Could not load items.",
+    "feedTitle": "Virtualized feed",
+    "feedDescription": "react-window List + TanStack infinite query with mock pages (no HTTP).",
+    "catalogTitle": "Product catalog (demo)",
+    "catalogDescription": "Same infinite-scroll pattern with a compact row layout.",
+    "tryAgain": "Try again",
+    "reelsTitle": "Reels-style video feed (demo)",
+    "reelsDescription": "Vertical snap scroll with mirrored background video for mismatched aspect ratios.",
+    "reelsLikes": "Likes",
+    "reelsComments": "Comments",
+    "reelsShare": "Share",
+    "reelsCommentPlaceholder": "Write a comment...",
+    "reelsPostComment": "Post comment",
+    "reelsShareHint": "Share this reel via your favorite platform."
   },
   "meta": {
     "homeTitle": "首页",
@@ -37,7 +57,16 @@
     "usersKeywords": "管理, 用户, 管理",
     "ordersKeywords": "管理, 订单, 管理",
     "productsKeywords": "管理, 产品, 目录",
-    "userDashboardKeywords": "仪表盘, 用户, 概览"
+    "userDashboardKeywords": "仪表盘, 用户, 概览",
+    "demoFeedTitle": "Feed demo",
+    "demoFeedDescription": "Virtualized infinite scroll demo using react-window and mock paginated data.",
+    "demoFeedKeywords": "react-window, infinite scroll, virtualization, demo",
+    "demoCatalogTitle": "Catalog demo",
+    "demoCatalogDescription": "E-commerce style list with infinite scroll and mock product pages.",
+    "demoCatalogKeywords": "react-window, catalog, infinite scroll, demo",
+    "demoReelsTitle": "Reels demo",
+    "demoReelsDescription": "TikTok-style vertical reels page with mirrored background overlay and action modals.",
+    "demoReelsKeywords": "reels, tiktok, vertical video, demo"
   },
   "auth": {
     "signingIn": "登录中...",

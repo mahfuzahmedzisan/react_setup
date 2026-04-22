@@ -2,6 +2,9 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 
 import Home from '@/pages/Home';
 import Cart from '@/pages/Cart';
+import FeedDemoPage from '@/pages/demo/FeedDemoPage';
+import CatalogDemoPage from '@/pages/demo/CatalogDemoPage';
+import ReelsDemoPage from '@/pages/demo/ReelsDemoPage';
 import NotFound from '@/pages/NotFound';
 import Unauthorized from '@/pages/Unauthorized';
 
@@ -19,62 +22,72 @@ import Performance from '@/pages/Performance';
 import { FrontendLayout } from '@/layouts/frontend/FrontendLayout';
 import { AuthLayout } from '@/layouts/auth/AuthLayout';
 import { AdminLayout } from '@/layouts/admin/AdminLayout';
+import { RouteErrorBoundary } from '@/components/error/RouteErrorBoundary';
 
 import { RoleGate } from '@/routes/RoleGate';
 import { GuestGate } from '@/routes/GuestGate';
 
 export const router = createBrowserRouter([
   {
-    element: <FrontendLayout />,
-    children: [
-      { path: '/', element: <Home /> },
-      { path: '/cart', element: <Cart /> },
-    ],
-  },
-  {
-    element: <AuthLayout />,
+    element: <Outlet />,
+    errorElement: <RouteErrorBoundary />,
     children: [
       {
-        path: '/login',
+        element: <FrontendLayout />,
+        children: [
+          { path: '/', element: <Home /> },
+          { path: '/cart', element: <Cart /> },
+          { path: '/demo/feed', element: <FeedDemoPage /> },
+          { path: '/demo/catalog', element: <CatalogDemoPage /> },
+          { path: '/demo/reels', element: <ReelsDemoPage /> },
+        ],
+      },
+      {
+        element: <AuthLayout />,
+        children: [
+          {
+            path: '/login',
+            element: (
+              <GuestGate>
+                <Login />
+              </GuestGate>
+            ),
+          },
+        ],
+      },
+      {
+        path: '/unauthorized',
+        element: <Unauthorized />,
+      },
+      {
         element: (
-          <GuestGate>
-            <Login />
-          </GuestGate>
+          <RoleGate allow={['user', 'buyer']} fallback="/unauthorized">
+            <Outlet />
+          </RoleGate>
         ),
+        children: [
+          { path: '/dashboard', element: <UserDashboard /> },
+          { path: '/account', element: <Account /> },
+        ],
+      },
+      {
+        element: (
+          <RoleGate allow="admin" fallback="/login">
+            <AdminLayout />
+          </RoleGate>
+        ),
+        children: [
+          { path: '/admin', element: <AdminDashboard /> },
+          { path: '/admin/users', element: <AdminUsers /> },
+          { path: '/admin/orders', element: <AdminOrders /> },
+          { path: '/admin/products', element: <AdminProducts /> },
+          { path: '/admin/performance', element: <Performance /> },
+        ],
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
-  },
-  {
-    path: '/unauthorized',
-    element: <Unauthorized />,
-  },
-  {
-    element: (
-      <RoleGate allow={['user', 'buyer']} fallback="/unauthorized">
-        <Outlet />
-      </RoleGate>
-    ),
-    children: [
-      { path: '/dashboard', element: <UserDashboard /> },
-      { path: '/account', element: <Account /> },
-    ],
-  },
-  {
-    element: (
-      <RoleGate allow="admin" fallback="/login">
-        <AdminLayout />
-      </RoleGate>
-    ),
-    children: [
-      { path: '/admin', element: <AdminDashboard /> },
-      { path: '/admin/users', element: <AdminUsers /> },
-      { path: '/admin/orders', element: <AdminOrders /> },
-      { path: '/admin/products', element: <AdminProducts /> },
-      { path: '/admin/performance', element: <Performance /> },
-    ],
-  },
-  {
-    path: '*',
-    element: <NotFound />,
   },
 ]);

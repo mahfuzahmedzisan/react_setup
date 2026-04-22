@@ -20,7 +20,27 @@
     "sidebar": "Sidebar",
     "mobileSidebarDescription": "Displays the mobile sidebar.",
     "toggleSidebar": "Toggle Sidebar",
-    "more": "More"
+    "more": "More",
+    "demoFeed": "Feed (demo)",
+    "demoCatalog": "Catalog (demo)",
+    "demoReels": "Reels (demo)"
+  },
+  "demo": {
+    "loadingMore": "Loading more…",
+    "initialError": "Could not load items.",
+    "feedTitle": "Virtualized feed",
+    "feedDescription": "react-window List + TanStack infinite query with mock pages (no HTTP).",
+    "catalogTitle": "Product catalog (demo)",
+    "catalogDescription": "Same infinite-scroll pattern with a compact row layout.",
+    "tryAgain": "Try again",
+    "reelsTitle": "Reels-style video feed (demo)",
+    "reelsDescription": "Vertical snap scroll with mirrored background video for mismatched aspect ratios.",
+    "reelsLikes": "Likes",
+    "reelsComments": "Comments",
+    "reelsShare": "Share",
+    "reelsCommentPlaceholder": "Write a comment...",
+    "reelsPostComment": "Post comment",
+    "reelsShareHint": "Share this reel via your favorite platform."
   },
   "meta": {
     "homeTitle": "Home",
@@ -47,7 +67,16 @@
     "usersKeywords": "admin, users, management",
     "ordersKeywords": "admin, orders, management",
     "productsKeywords": "admin, products, catalog",
-    "userDashboardKeywords": "dashboard, user, overview"
+    "userDashboardKeywords": "dashboard, user, overview",
+    "demoFeedTitle": "Feed demo",
+    "demoFeedDescription": "Virtualized infinite scroll demo using react-window and mock paginated data.",
+    "demoFeedKeywords": "react-window, infinite scroll, virtualization, demo",
+    "demoCatalogTitle": "Catalog demo",
+    "demoCatalogDescription": "E-commerce style list with infinite scroll and mock product pages.",
+    "demoCatalogKeywords": "react-window, catalog, infinite scroll, demo",
+    "demoReelsTitle": "Reels demo",
+    "demoReelsDescription": "TikTok-style vertical reels page with mirrored background overlay and action modals.",
+    "demoReelsKeywords": "reels, tiktok, vertical video, demo"
   },
   "home": {
     "categories": "Categories",

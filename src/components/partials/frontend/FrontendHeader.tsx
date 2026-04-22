@@ -37,6 +37,30 @@ export function FrontendHeader() {
           >
             {t('common.cart')}
           </NavLink>
+          <NavLink
+            to="/demo/feed"
+            className={({ isActive }) =>
+              cn('text-muted-foreground hover:text-foreground', isActive && 'text-foreground')
+            }
+          >
+            {t('common.demoFeed')}
+          </NavLink>
+          <NavLink
+            to="/demo/catalog"
+            className={({ isActive }) =>
+              cn('text-muted-foreground hover:text-foreground', isActive && 'text-foreground')
+            }
+          >
+            {t('common.demoCatalog')}
+          </NavLink>
+          <NavLink
+            to="/demo/reels"
+            className={({ isActive }) =>
+              cn('text-muted-foreground hover:text-foreground', isActive && 'text-foreground')
+            }
+          >
+            {t('common.demoReels')}
+          </NavLink>
         </nav>
 
         <div className="flex items-center gap-2">
