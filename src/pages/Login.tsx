@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
 
 import {
   extractBearerTokenFromLoginBody,
@@ -16,6 +19,7 @@ import { getUserRoles } from '@/auth/roles';
 import { PageMeta } from '@/components/seo/PageMeta';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 function nextParamPointsAtLoginLoop(nextRaw: string | null) {
@@ -32,17 +36,29 @@ function nextParamPointsAtLoginLoop(nextRaw: string | null) {
   return s.includes('/login');
 }
 
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address.'),
+  password: z.string().min(1, 'Password is required.'),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const { setToken, setUser, refreshSession, authStrategy } = useAuth();
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const { t } = useTranslation();
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
   React.useEffect(() => {
     const next = searchParams.get('next');
@@ -51,12 +67,11 @@ export default function Login() {
     }
   }, [navigate, searchParams]);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function onSubmit(values: LoginFormValues) {
     setError(null);
     setLoading(true);
     try {
-      const res = await request.post<unknown>('/login', { email, password });
+      const res = await request.post<unknown>('/login', values);
       const body = res.data;
       const loggedInUser = extractUserFromAuthPayload(body);
 
@@ -123,32 +138,44 @@ export default function Login() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4" onSubmit={onSubmit}>
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="email">
-                  {t('auth.email')}
-                </label>
-                <Input
-                  id="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('auth.emailPlaceholder')}
+            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)} noValidate>
+              <FieldGroup className="gap-4">
+                <Controller
+                  name="email"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="email">{t('auth.email')}</FieldLabel>
+                      <Input
+                        {...field}
+                        id="email"
+                        autoComplete="email"
+                        aria-invalid={fieldState.invalid}
+                        placeholder={t('auth.emailPlaceholder')}
+                      />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
                 />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="password">
-                  {t('auth.password')}
-                </label>
-                <Input
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t('auth.passwordPlaceholder')}
+                <Controller
+                  name="password"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="password">{t('auth.password')}</FieldLabel>
+                      <Input
+                        {...field}
+                        id="password"
+                        type="password"
+                        autoComplete="current-password"
+                        aria-invalid={fieldState.invalid}
+                        placeholder={t('auth.passwordPlaceholder')}
+                      />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </Field>
+                  )}
                 />
-              </div>
+              </FieldGroup>
               {error ? (
                 <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
                   {error}

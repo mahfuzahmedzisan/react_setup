@@ -1,31 +1,39 @@
+import { Suspense, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-
-import Home from '@/pages/Home';
-import Cart from '@/pages/Cart';
-import FeedDemoPage from '@/pages/demo/FeedDemoPage';
-import CatalogDemoPage from '@/pages/demo/CatalogDemoPage';
-import ReelsDemoPage from '@/pages/demo/ReelsDemoPage';
-import NotFound from '@/pages/NotFound';
-import Unauthorized from '@/pages/Unauthorized';
-
-import Login from '@/pages/Login';
-
-import UserDashboard from '@/pages/user/UserDashboard';
-import Account from '@/pages/Account';
-
-import AdminDashboard from '@/pages/admin/AdminDashboard';
-import AdminUsers from '@/pages/admin/AdminUsers';
-import AdminOrders from '@/pages/admin/AdminOrders';
-import AdminProducts from '@/pages/admin/AdminProducts';
-import Performance from '@/pages/Performance';
 
 import { FrontendLayout } from '@/layouts/frontend/FrontendLayout';
 import { AuthLayout } from '@/layouts/auth/AuthLayout';
 import { AdminLayout } from '@/layouts/admin/AdminLayout';
 import { RouteErrorBoundary } from '@/components/error/RouteErrorBoundary';
+import {
+  AccountPage,
+  AdminDashboardPage,
+  AdminOrdersPage,
+  AdminProductsPage,
+  AdminUsersPage,
+  CartPage,
+  CatalogDemoPage,
+  FeedDemoPage,
+  FormDemoPage,
+  HomePage,
+  LoginPage,
+  NotFoundPage,
+  PerformancePage,
+  ReelsDemoPage,
+  UnauthorizedPage,
+  UserDashboardPage,
+} from '@/routes/lazy-pages';
 
 import { RoleGate } from '@/routes/RoleGate';
 import { GuestGate } from '@/routes/GuestGate';
+
+function withSuspense(element: ReactNode) {
+  return (
+    <Suspense fallback={<div className="p-4 text-sm text-muted-foreground">Loading page...</div>}>
+      {element}
+    </Suspense>
+  );
+}
 
 export const router = createBrowserRouter([
   {
@@ -35,11 +43,12 @@ export const router = createBrowserRouter([
       {
         element: <FrontendLayout />,
         children: [
-          { path: '/', element: <Home /> },
-          { path: '/cart', element: <Cart /> },
-          { path: '/demo/feed', element: <FeedDemoPage /> },
-          { path: '/demo/catalog', element: <CatalogDemoPage /> },
-          { path: '/demo/reels', element: <ReelsDemoPage /> },
+          { path: '/', element: withSuspense(<HomePage />) },
+          { path: '/cart', element: withSuspense(<CartPage />) },
+          { path: '/demo/feed', element: withSuspense(<FeedDemoPage />) },
+          { path: '/demo/catalog', element: withSuspense(<CatalogDemoPage />) },
+          { path: '/demo/reels', element: withSuspense(<ReelsDemoPage />) },
+          { path: '/demo/form', element: withSuspense(<FormDemoPage />) },
         ],
       },
       {
@@ -49,7 +58,7 @@ export const router = createBrowserRouter([
             path: '/login',
             element: (
               <GuestGate>
-                <Login />
+                {withSuspense(<LoginPage />)}
               </GuestGate>
             ),
           },
@@ -57,7 +66,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/unauthorized',
-        element: <Unauthorized />,
+        element: withSuspense(<UnauthorizedPage />),
       },
       {
         element: (
@@ -66,8 +75,8 @@ export const router = createBrowserRouter([
           </RoleGate>
         ),
         children: [
-          { path: '/dashboard', element: <UserDashboard /> },
-          { path: '/account', element: <Account /> },
+          { path: '/dashboard', element: withSuspense(<UserDashboardPage />) },
+          { path: '/account', element: withSuspense(<AccountPage />) },
         ],
       },
       {
@@ -77,16 +86,16 @@ export const router = createBrowserRouter([
           </RoleGate>
         ),
         children: [
-          { path: '/admin', element: <AdminDashboard /> },
-          { path: '/admin/users', element: <AdminUsers /> },
-          { path: '/admin/orders', element: <AdminOrders /> },
-          { path: '/admin/products', element: <AdminProducts /> },
-          { path: '/admin/performance', element: <Performance /> },
+          { path: '/admin', element: withSuspense(<AdminDashboardPage />) },
+          { path: '/admin/users', element: withSuspense(<AdminUsersPage />) },
+          { path: '/admin/orders', element: withSuspense(<AdminOrdersPage />) },
+          { path: '/admin/products', element: withSuspense(<AdminProductsPage />) },
+          { path: '/admin/performance', element: withSuspense(<PerformancePage />) },
         ],
       },
       {
         path: '*',
-        element: <NotFound />,
+        element: withSuspense(<NotFoundPage />),
       },
     ],
   },
