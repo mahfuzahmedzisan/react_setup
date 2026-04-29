@@ -16,3 +16,4 @@ export const AdminUsersPage = lazy(() => import('@/pages/admin/AdminUsers'));
 export const AdminOrdersPage = lazy(() => import('@/pages/admin/AdminOrders'));
 export const AdminProductsPage = lazy(() => import('@/pages/admin/AdminProducts'));
 export const PerformancePage = lazy(() => import('@/pages/Performance'));
+export const ImageDemoPage = lazy(() => import('@/pages/demo/ImageDemoPage'));

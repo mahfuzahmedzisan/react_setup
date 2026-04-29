@@ -22,6 +22,7 @@ import {
   ReelsDemoPage,
   UnauthorizedPage,
   UserDashboardPage,
+  ImageDemoPage,
 } from '@/routes/lazy-pages';
 
 import { RoleGate } from '@/routes/RoleGate';
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
           { path: '/demo/catalog', element: withSuspense(<CatalogDemoPage />) },
           { path: '/demo/reels', element: withSuspense(<ReelsDemoPage />) },
           { path: '/demo/form', element: withSuspense(<FormDemoPage />) },
+          { path: '/demo/image', element: withSuspense(<ImageDemoPage />) },
         ],
       },
       {
