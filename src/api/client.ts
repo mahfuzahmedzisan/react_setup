@@ -45,7 +45,7 @@ export const api: AxiosInstance = axios.create({
   headers: {
     Accept: 'application/json',
   },
-  withCredentials: true,
+  withCredentials: env.authStrategy === 'http_only_cookie',
 });
 
 api.interceptors.request.use((config) => {
