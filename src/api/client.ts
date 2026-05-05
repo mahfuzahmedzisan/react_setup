@@ -1,6 +1,7 @@
 import axios, { type AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 
 import { getXsrfTokenFromCookie } from '@/auth/csrf';
+import { getGuestToken } from '@/auth/guestToken';
 import { performTokenRefresh } from '@/auth/performTokenRefresh';
 import {
   clearAccessToken,
@@ -55,6 +56,13 @@ api.interceptors.request.use((config) => {
     const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
+  if (!config.headers.Authorization) {
+    const guestToken = getGuestToken();
+    if (guestToken) {
+      config.headers['X-Guest-Token'] = guestToken;
     }
   }
 

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { api } from '@/api/client';
 import { AuthContext, type AuthContextValue } from '@/auth/context';
 import { fetchCurrentUser } from '@/auth/session';
+import { clearGuestToken } from '@/auth/guestToken';
 import { clearAccessToken, getAccessToken, setAccessToken } from '@/auth/token';
 import { type AuthUser } from '@/auth/types';
 import { getRoleLogoutPath } from '@/auth/rolePolicy';
@@ -61,6 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [refreshSession]);
 
   const setToken = React.useCallback((token: string) => {
+    clearGuestToken();
     setAccessToken(token);
     setAccessTokenState(token);
   }, []);

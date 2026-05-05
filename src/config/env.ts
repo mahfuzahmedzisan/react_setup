@@ -104,6 +104,12 @@ function boolFromEnv(value: string | undefined, fallback = false): boolean {
   return value.trim().toLowerCase() === 'true';
 }
 
+function positiveNumberFromEnv(value: string | undefined, fallback: number): number {
+  if (value == null) return fallback;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
 function webVitalsReportersFromEnv(): WebVitalsReporter[] {
   const raw = (import.meta.env.VITE_WEB_VITALS_REPORTERS as string | undefined)?.trim();
   if (!raw) return [];
@@ -162,6 +168,11 @@ export const env = {
   i18nSupportedLanguages,
   /** Default language if browser language is not supported. */
   i18nDefaultLanguage: i18nDefaultLanguageFromEnv(i18nSupportedLanguages),
+  /** Guest token lifetime in days. Browser storage cannot expire by itself, so the app removes expired values when read. */
+  guestTokenLifetimeDays: positiveNumberFromEnv(
+    import.meta.env.VITE_GUEST_TOKEN_LIFETIME_DAYS as string | undefined,
+    10,
+  ),
   /** Toggle real-user web-vitals collection in runtime. */
   webVitalsEnabled: boolFromEnv(import.meta.env.VITE_WEB_VITALS_ENABLED as string | undefined),
   /** Extra logging and debug UI behaviors. */

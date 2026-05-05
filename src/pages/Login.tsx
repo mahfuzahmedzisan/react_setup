@@ -13,6 +13,7 @@ import {
 import { useAuth } from '@/auth/useAuth';
 import { request } from '@/api/request';
 import { env } from '@/config/env';
+import { clearGuestToken } from '@/auth/guestToken';
 import { setRefreshToken } from '@/auth/token';
 import { rolePolicy } from '@/auth/rolePolicy';
 import { getUserRoles } from '@/auth/roles';
@@ -76,6 +77,7 @@ export default function Login() {
       const loggedInUser = extractUserFromAuthPayload(body);
 
       if (authStrategy === 'http_only_cookie') {
+        clearGuestToken();
         const u = await refreshSession();
         if (!u) {
           throw new Error(t('auth.noSessionCookie'));
